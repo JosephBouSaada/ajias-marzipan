@@ -1,0 +1,42 @@
+{
+  "categories": [
+    { "id": "all", "name": "Everything" },
+    { "id": "roses", "name": "Roses & flowers" },
+    { "id": "baptism", "name": "Baptism & christening" },
+    { "id": "wedding", "name": "Weddings" },
+    { "id": "communion", "name": "First communion" },
+    { "id": "fruit", "name": "Fruit" },
+    { "id": "chocolate", "name": "Chocolate dipped" },
+    { "id": "holiday", "name": "Holidays" },
+    { "id": "favors", "name": "Favors" }
+  ],
+  "products": [
+    { "id": "rose-single", "no": "02", "name": "Sculpted rose", "cat": ["roses"], "photo": "rose-single-macro", "alt": "A large cream marzipan rose with layered petals", "blurb": "Petals turned outward by hand. Natural almond or tinted.", "unit": "piece", "price": 3, "startQty": 12, "size": "2 in across" },
+    { "id": "rose-box-6", "no": "03", "name": "Box of six roses", "cat": ["roses", "favors"], "photo": "rose-box-six", "alt": "Six pale marzipan roses in a white gift box", "blurb": "Six roses in a simple gift box.", "unit": "box", "price": 24, "startQty": 1, "size": "6 pieces per box" },
+    { "id": "baby-favor", "no": "10", "name": "Swaddled baby favor", "cat": ["baptism", "favors"], "photo": "baby-pink-macro", "alt": "A marzipan sleeping baby in a pink bonnet", "blurb": "A sleeping baby in a knitted bonnet. Pink, blue, grey or white.", "unit": "piece", "price": 4, "startQty": 24, "size": "2¼ in long" },
+    { "id": "baby-grey", "no": "11", "name": "Swaddled baby, grey", "cat": ["baptism", "favors"], "photo": "baby-grey-single", "alt": "A marzipan sleeping baby in a grey bonnet", "blurb": "The same figure in grey and cream.", "unit": "piece", "price": 4, "startQty": 24, "size": "2¼ in long" },
+    { "id": "baby-blue", "no": "12", "name": "Swaddled baby, blue", "cat": ["baptism", "favors"], "photo": "baby-blue-rows", "alt": "Rows of marzipan sleeping babies in blue bonnets", "blurb": "Made in rows, then wrapped one at a time. Teal, sky or navy.", "unit": "piece", "price": 4, "startQty": 24, "size": "2¼ in long" },
+    { "id": "wedding-couple", "no": "14", "name": "Bride & groom figure", "cat": ["wedding"], "photo": "wedding-couple-single", "alt": "A standing marzipan bride and groom", "blurb": "A standing couple in natural almond with a hand-sculpted bouquet.", "unit": "piece", "price": 22, "startQty": 1, "size": "4½ in tall" },
+    { "id": "wedding-plaque", "no": "16", "name": "Bride & groom plaque", "cat": ["wedding"], "photo": "wedding-plaque", "alt": "A marzipan relief plaque of a bride and groom", "blurb": "A flat relief plaque finished with gold beads.", "unit": "piece", "price": 12, "startQty": 6, "size": "3 × 2¼ in" },
+    { "id": "communion-plaque", "no": "17", "name": "Gilded chalice plaque", "cat": ["communion"], "photo": "communion-chalice", "alt": "A gilded marzipan chalice plaque with wheat and grapes", "blurb": "Chalice, wheat and grapes in relief with edible gold.", "unit": "piece", "price": 14, "startQty": 6, "size": "2½ × 2 in", "sizeMeasured": true },
+    { "id": "grapes", "no": "18", "name": "Grape cluster", "cat": ["fruit"], "photo": "grapes-colored-plate", "alt": "Marzipan grape clusters with sculpted leaves", "blurb": "Every grape rolled separately and built onto the stem.", "unit": "piece", "price": 7.5, "startQty": 6, "size": "3½ in long" },
+    { "id": "grapes-white", "no": "20", "name": "White grape cluster", "cat": ["fruit"], "photo": "grapes-white-leaf", "alt": "Pale marzipan grapes with a green vine leaf", "blurb": "Pale almond grapes under a deep green vine leaf.", "unit": "piece", "price": 7.5, "startQty": 6, "size": "3½ in long" },
+    { "id": "fruit-box", "no": "21", "name": "Summer fruit box", "cat": ["fruit"], "photo": "fruit-box-mixed", "alt": "A gift box of marzipan fruit", "blurb": "Watermelon, lemons, oranges and grapes, shaped by hand.", "unit": "box", "price": 32, "startQty": 1, "size": "9 pieces per box" },
+    { "id": "choc-dark", "no": "22", "name": "Dark chocolate dipped", "cat": ["chocolate"], "photo": "chocolate-jar-dark", "alt": "A jar of dark chocolate dipped marzipan", "blurb": "Marzipan rolled and dipped in dark chocolate.", "unit": "jar", "price": 28, "startQty": 1, "size": "24 pieces per jar", "dietNote": "Chocolate is bought in. Ask Ajia about ingredients and shared lines." },
+    { "id": "choc-milk", "no": "23", "name": "Milk chocolate dipped", "cat": ["chocolate"], "photo": "chocolate-jar-milk", "alt": "A jar of milk chocolate dipped marzipan", "blurb": "The same marzipan under milk chocolate.", "unit": "jar", "price": 28, "startQty": 1, "size": "24 pieces per jar", "dietNote": "Contains dairy. This is the exception to the vegan, gluten-free marzipan." },
+    { "id": "christmas-box", "no": "24", "name": "Christmas box", "cat": ["holiday"], "photo": "christmas-box-open", "alt": "A red box of marzipan rosettes and hearts", "blurb": "Red and green rosettes and rose-topped hearts.", "unit": "box", "price": 34, "startQty": 1, "size": "15 pieces per box" },
+    { "id": "christmas-hearts", "no": "26", "name": "Christmas hearts", "cat": ["holiday"], "photo": "christmas-hearts-plate", "alt": "Sugared red marzipan hearts topped with roses", "blurb": "Sugared red hearts with a rose and two leaves.", "unit": "piece", "price": 4.5, "startQty": 12, "size": "2½ in across" },
+    { "id": "christmas-gift", "no": "27", "name": "Snowman gift box", "cat": ["holiday"], "photo": "christmas-box-snowman", "alt": "A snowman gift box of red and green marzipan flowers", "blurb": "Red and green flowers in gold cups, boxed for handing over.", "unit": "box", "price": 30, "startQty": 1, "size": "12 pieces per box" },
+    { "id": "easter-bag", "no": "28", "name": "Easter assortment", "cat": ["holiday"], "photo": "easter-bag-pastel", "alt": "A clear bag of pastel marzipan eggs, bunnies and carrots", "blurb": "Pastel eggs, bunnies and carrots in a bow-tied bag.", "unit": "bag", "price": 26, "startQty": 1, "size": "30 pieces per bag" },
+    { "id": "box-assorted", "no": "29", "name": "Assorted flower box", "cat": ["favors"], "photo": "box-pastel-cups", "alt": "A box of marzipan flowers in gold cups", "blurb": "Small flowers in gold cups. Choose the colours.", "unit": "box", "price": 42, "startQty": 1, "size": "24 pieces per box" },
+    { "id": "flower-jar", "no": "30", "name": "Flower jar", "cat": ["favors"], "photo": "flower-jar-glass", "alt": "A glass jar packed with marzipan flowers", "blurb": "A lidded jar packed with flowers.", "unit": "jar", "price": 38, "startQty": 1, "size": "30 pieces per jar" },
+    { "id": "party-custom", "no": "31", "name": "Made to your theme", "cat": ["favors"], "photo": "party-teal-tray", "alt": "A party tray of teal marzipan turtles and pink flowers", "blurb": "Send a picture and Ajia will shape the theme.", "unit": "piece", "price": 5, "startQty": 24, "size": "sized to the piece", "custom": true }
+  ],
+  "trayGroups": [
+    { "id": "rose-trays", "name": "Rose trays", "description": "Long and round trays, from quiet cream roses to full table centrepieces.", "photos": ["rose-trays-pair", "rose-trays-angled", "rose-tray-round", "rose-tray-pearl", "rose-tray-gold", "rose-trays-close", "rose-trays-gold-pair", "cream-blossom-tray"] },
+    { "id": "baptism-trays", "name": "Baptism trays", "description": "Sleeping babies arranged in rings or gathered close for a christening table.", "photos": ["baby-tray-full", "baby-tray-round", "baby-tray-close", "baby-tray-massed", "baby-tray-rings"] },
+    { "id": "dahlia-trays", "name": "Dahlia trays", "description": "Long trays of coral and cream dahlias with sculpted leaves.", "photos": ["dahlia-tray-long", "dahlia-tray-angled", "dahlia-tray-top", "dahlia-tray-alt"] },
+    { "id": "holiday-trays", "name": "Holiday trays", "description": "Poinsettias and seasonal flowers for a table, a party or a gift.", "photos": ["christmas-tray-round", "christmas-plate-gold", "christmas-tray-coral"] },
+    { "id": "custom-trays", "name": "Party and custom trays", "description": "A colour story, a character or a full table built around your theme.", "photos": ["party-teal-tray", "grapes-purple-tray"] }
+  ]
+}

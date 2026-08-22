@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Ajia's Marzipan — behaviour
+   Ajia's Marzipan: behaviour
    The strike: a cell is carved until it is struck, then the piece comes out.
    The sheet: a local order sheet, no payment, no server.
    ========================================================================== */
@@ -30,8 +30,8 @@
 
   /* Every unconfirmed figure is marked where the figure is, not only in a notice
      at the top of the page: a number that looks settled reads as settled. */
-  var PH_PRICE = "Placeholder price — not Ajia's real figure";
-  var PH_SIZE = "Estimated from Ajia's photographs — awaiting her measurement";
+  var PH_PRICE = "Placeholder price: not Ajia's real figure";
+  var PH_SIZE = "Estimated from Ajia's photographs: awaiting her measurement";
   function price(n) {
     var t = money.format(n);
     return D.PLACEHOLDER.on
@@ -290,7 +290,6 @@
         '<span class="good__no num">No. ' +
         p.no +
         "</span>" +
-        (p.vegan ? '<span class="good__vg">' + svg("i-almond") + "Vegan · GF</span>" : "") +
         "</div>" +
         '<div class="good__body">' +
         '<h3 class="good__name">' +
@@ -604,7 +603,7 @@
               "mailto:" +
               D.CONTACT.email +
               "?subject=" +
-              encodeURIComponent("Order request — " + ($("#name").value || "new")) +
+              encodeURIComponent("Order request: " + ($("#name").value || "new")) +
               "&body=" +
               encodeURIComponent(out);
           }
@@ -634,7 +633,7 @@
         return el ? el.value.trim() : "";
       };
       var L = [];
-      L.push("ORDER REQUEST — AJIA'S MARZIPAN");
+      L.push("ORDER REQUEST: AJIA'S MARZIPAN");
       L.push("(no payment has been taken; this is a request)");
       L.push("");
       L.push("FROM");
@@ -683,17 +682,37 @@
     paintSheet();
   }
 
+  /* --------------------------------------------------------- tray gallery */
+  var trayGroupsEl = $("#tray-groups");
+  if (trayGroupsEl && D.TRAY_GROUPS) {
+    trayGroupsEl.innerHTML = D.TRAY_GROUPS.map(function (group) {
+      return (
+        '<article class="tray-group">' +
+        '<div class="tray-group__head"><h3>' + esc(group.name) + '</h3><p>' + esc(group.description) + '</p></div>' +
+        '<div class="tray-group__photos">' +
+        group.photos.map(function (photo, index) {
+          return '<figure><img src="img/card/' + photo + '.jpg" alt="' + esc(group.name + ' example ' + (index + 1)) + '" loading="lazy" decoding="async"><figcaption>' + esc(group.name) + ' ' + (index + 1) + '</figcaption></figure>';
+        }).join("") +
+        '</div>' +
+        '<div class="tray-group__order"><p>Made to order. Call Ajia to discuss your tray.</p><a class="btn btn--brass btn--sm" href="' + esc(D.CONTACT.phoneHref || "#") + '">' + svg("i-phone") + 'Call ' + esc(D.CONTACT.phone) + '</a></div>' +
+        '</article>'
+      );
+    }).join("");
+  }
+
   /* --------------------------------------------------------- placeholders */
   $$("[data-contact]").forEach(function (el) {
     var k = el.getAttribute("data-contact");
     if (D.CONTACT[k]) el.textContent = D.CONTACT[k];
+    if (k === "phone") {
+      el.setAttribute("href", D.CONTACT.phoneHref || "#");
+      return;
+    }
     if (D.CONTACT.placeholder) {
-      /* a dead link is better than a live link to a stranger's inbox */
       el.removeAttribute("href");
       el.setAttribute("aria-disabled", "true");
       return;
     }
-    if (k === "phone") el.setAttribute("href", D.CONTACT.phoneHref || "#");
     if (k === "email") el.setAttribute("href", "mailto:" + D.CONTACT.email);
   });
 

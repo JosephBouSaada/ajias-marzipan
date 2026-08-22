@@ -1,4 +1,4 @@
-/* Ajia's Marzipan — engraved icon set.
+/* Ajia's Marzipan: engraved icon set.
    One stroke weight (1.5), one 24-unit grid, square-cut terminals: the same
    tool that cuts the mold cuts these. Injected synchronously so nothing pops. */
 (function () {
@@ -20,7 +20,7 @@
       "i-sheet",
       '<path d="M5 3h11l4 4v14H5V3z"/><path d="M16 3v4h4"/><path d="M8 11h8M8 14.5h8M8 18h5"/>'
     ) +
-    // an almond in profile — the material itself
+    // an almond in profile: the material itself
     icon(
       "i-almond",
       '<path d="M12 3.2c3.6 3 5.4 6 5.4 9.2 0 4.1-2.5 8.4-5.4 8.4S6.6 16.5 6.6 12.4c0-3.2 1.8-6.2 5.4-9.2z"/><path d="M12 6.6v11"/>'

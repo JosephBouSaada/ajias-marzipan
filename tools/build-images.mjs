@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Ajia's Marzipan — image pipeline.
+ * Ajia's Marzipan: image pipeline.
  *
  * Takes the owner's raw archive in assets/ and produces web-ready, semantically
  * named derivatives in img/. Run again after adding photos:  node tools/build-images.mjs

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Ajia's Marzipan — THE CARVED MOLD
+   Ajia's Marzipan: THE CARVED MOLD
    One light source, upper-left, on every surface of this site.
    Intaglio = carved in = dark. Relief = pressed out = light.
    ========================================================================== */
@@ -36,7 +36,7 @@
   --ink-500: #5a4835;
   --ink-400: #6b5842;
 
-  /* text on walnut — tinted from the ground, never gray */
+  /* text on walnut: tinted from the ground, never gray */
   --on-walnut: #f4ecdb;
   --on-walnut-dim: #c3b096;
   --on-walnut-faint: #93816a;
@@ -241,7 +241,7 @@ a {
   position: relative;
 }
 
-/* the brass rule — the site's mark, present with all content stripped */
+/* the brass rule: the site's mark, present with all content stripped */
 .rule {
   height: 2px;
   border: 0;
@@ -336,7 +336,7 @@ p {
   transform: none;
 }
 
-/* struck brass — the primary action, pressed out of the block */
+/* struck brass: the primary action, pressed out of the block */
 .btn--brass {
   color: #1d1502;
   background: linear-gradient(168deg, var(--brass-300), var(--brass-400) 42%, var(--brass-500));
@@ -352,7 +352,7 @@ p {
   background: linear-gradient(168deg, var(--brass-500), var(--brass-400));
 }
 
-/* carved — the secondary action, cut in rather than raised */
+/* carved: the secondary action, cut in rather than raised */
 .btn--carved {
   color: var(--on-walnut);
   background: var(--walnut-800);
@@ -564,7 +564,7 @@ p {
 }
 
 /* ==========================================================================
-   THE MOLD — cells are carved until struck
+   THE MOLD: cells are carved until struck
    ========================================================================== */
 .mold {
   display: grid;
@@ -1516,7 +1516,7 @@ p {
   color: var(--ink-400);
 }
 
-/* quantity stepper — carved into the paste */
+/* quantity stepper: carved into the paste */
 .qty {
   display: inline-flex;
   align-items: stretch;
@@ -1683,7 +1683,7 @@ p {
   }
 }
 
-/* the fixed constellation — each number owns one truth */
+/* the fixed constellation: each number owns one truth */
 .tally {
   position: sticky;
   top: 96px;
@@ -2011,6 +2011,75 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.tray-catalogue {
+  scroll-margin-top: 5.5rem;
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+.tray-groups {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.tray-group {
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: var(--walnut-800);
+  box-shadow: var(--lift-1);
+}
+.tray-group__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.tray-group__head h3 {
+  color: var(--paste-050);
+  font-family: var(--face-display);
+  font-size: var(--t-lg);
+  font-weight: 400;
+}
+.tray-group__head p,
+.tray-group__order p {
+  max-width: 48ch;
+  color: var(--on-walnut-dim);
+  font-size: var(--t-sm);
+}
+.tray-group__photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.tray-group__photos figure {
+  min-width: 0;
+}
+.tray-group__photos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.tray-group__photos figcaption {
+  padding-top: 0.35rem;
+  color: var(--on-walnut-faint);
+  font-size: var(--t-micro);
+}
+.tray-group__order {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(201, 162, 39, 0.28);
+}
+@media (max-width: 720px) {
+  .tray-group__head,
+  .tray-group__order {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .tray-group__photos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 1000px) {
   .grid-gal,

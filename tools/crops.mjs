@@ -13,8 +13,8 @@ const shots = [
   ["index", ".band.walnut:nth-of-type(3)", "d-occ"],
   ["index", ".close", "d-close"],
   ["catalogue", ".cat", "d-cat"],
-  ["occasions", "#weddings", "d-wed"],
-  ["occasions", "#baptisms", "d-bap"],
+  ["gallery", "#trays", "d-trays"],
+  ["gallery", "#baptism", "d-bap"],
   ["gallery", ".grid-gal", "d-gal"],
   ["about", ".band.paste", "d-about"],
   ["order", "#sheet-wrap", "d-sheet"],
@@ -31,7 +31,7 @@ for (const [p, sel, label] of shots) {
       localStorage.setItem(
         "ajia.sheet.v2",
         JSON.stringify({
-          items: { "rose-favor": 120, "baby-favor": 60, "dahlia-tray": 2, "choc-dark": 3 },
+          items: { "rose-single": 120, "baby-favor": 60, "baby-tray": 2, "choc-dark": 3 },
           occasion: "Baptism or christening",
           date: "",
         })
@@ -58,13 +58,13 @@ const mctx = await browser.newContext({
   hasTouch: true,
 });
 const mp = await mctx.newPage();
-for (const p of ["index", "catalogue", "occasions", "order"]) {
+for (const p of ["index", "catalogue", "order"]) {
   await mp.goto(`${BASE}/${p}.html`, { waitUntil: "networkidle" });
   if (p === "order") {
     await mp.evaluate(() => {
       localStorage.setItem(
         "ajia.sheet.v2",
-        JSON.stringify({ items: { "rose-favor": 120, "dahlia-tray": 2 }, occasion: "", date: "" })
+        JSON.stringify({ items: { "rose-single": 120, "baby-tray": 2 }, occasion: "", date: "" })
       );
     });
     await mp.reload({ waitUntil: "networkidle" });

@@ -1,6 +1,6 @@
 # Ajia's Marzipan
 
-Website for a hand-sculpted marzipan maker in greater Boston — roses, sleeping babies,
+Website for a hand-sculpted marzipan maker in greater Boston: roses, sleeping babies,
 bride-and-groom figures, chalice plaques, fruit and centrepiece trays, for weddings,
 baptisms, first communions, parties and gifts.
 
@@ -12,7 +12,7 @@ Open `index.html` or serve the folder and it runs.
 ## ⚠️ Not ready to publish as-is
 
 **Every price on this site is a placeholder.** So are the phone number, email, Instagram
-handle and all lead times. They are stand-ins so the order sheet adds up — they are not
+handle and all lead times. They are stand-ins so the order sheet adds up: they are not
 Ajia's real figures, and they are marked as fake on screen with a dashed underline and a
 `?` at each one.
 
@@ -28,7 +28,7 @@ See `PRODUCT.md` for exactly what is known versus what must not be invented.
 
 | Step | Where |
 |---|---|
-| Real prices | `js/data.js` → each product's `price` |
+| Real prices | `js/products.json` → each product's `price` |
 | Turn off the price warnings | `js/data.js` → `PLACEHOLDER.on = false` |
 | Real phone / email / Instagram | `js/data.js` → `CONTACT` |
 | Re-enable the mail route | `js/data.js` → `CONTACT.placeholder = false` |
@@ -42,14 +42,14 @@ inquiry, not a payment.
 
 ## Dietary claim
 
-The marzipan is **gluten-free, dairy-free and vegan** — almonds and sugar, not a
+The marzipan is **gluten-free, dairy-free and vegan**: almonds and sugar, not a
 substitution or a special order. This is a first-class product fact, not a footnote.
 
 Chocolate is the one component Ajia buys in rather than makes, so the two chocolate-dipped
 products sit outside the claim and say so on their own cards:
 
-- **Milk chocolate** — contains dairy. Not dairy-free, not vegan.
-- **Dark chocolate** — not yet confirmed by the owner, so the site does not assert it.
+- **Milk chocolate**: contains dairy. Not dairy-free, not vegan.
+- **Dark chocolate**: not yet confirmed by the owner, so the site does not assert it.
 
 The claim is stated plainly at brand level; the exception is labelled on the two items it
 applies to. Do not caveat the headline claim, and do not extend it over the chocolate.
@@ -60,14 +60,14 @@ applies to. Do not caveat the headline claim, and do not extend it over the choc
 
 ```
 index.html          home
-catalogue.html      31 products, filterable, adds to the order sheet
-occasions.html      weddings, baptisms, communions, parties, gifts
-gallery.html        the archive — 55 photographs in six captioned groups
+catalogue.html      products, filterable, adds to the order sheet
+gallery.html        grouped photographs and commissioned trays
 about.html          about Ajia
 order.html          the order sheet and inquiry form
 
 css/mold.css        the whole design system
-js/data.js          products, contact, placeholder flags — the source of truth
+js/products.json     human-editable product and tray data
+js/data.js           contact and site settings
 js/site.js          cart, order sheet, validation, summary
 js/icons.js         inline SVG sprite
 

@@ -8,7 +8,7 @@ const OUT = ".impeccable/review";
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
-const pages = ["index", "catalogue", "occasions", "gallery", "about", "order"];
+const pages = ["index", "catalogue", "gallery", "about", "order"];
 /* `slice` is the CSS-pixel height of one review panel; `out` is the pixel width the
    panel is delivered at. Both are chosen so a panel stays legible when it is read,
    which a downscaled full-page capture never is. `maxPanels` keeps a very long page
@@ -20,7 +20,7 @@ const targets = [
 ];
 
 const SEED = {
-  items: { "rose-favor": 120, "baby-favor": 60, "dahlia-tray": 2, "choc-dark": 3 },
+  items: { "rose-single": 120, "baby-favor": 60, "baby-tray": 2, "choc-dark": 3 },
   occasion: "Baptism or christening",
   date: "",
 };
