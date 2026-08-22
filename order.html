@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your order sheet: Ajia's Marzipan</title>
-<meta name="description" content="Build your order sheet, add your date and guest count, and send it to Ajia. No payment is taken here: she replies with a firm quote.">
+<title>Your cart: Ajia's Marzipan</title>
+<meta name="description" content="Build your cart, add your date and guest count, and send it to Ajia. No payment is taken here: she replies with a firm quote.">
 <meta name="theme-color" content="#0d0805">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,7 @@
       <a href="about.html">About Ajia</a>
       <a class="sheet-btn" href="order.html" data-sheet-count data-empty="true" aria-current="page">
         <svg class="i" aria-hidden="true"><use href="#i-sheet"/></svg>
-        Order sheet <span class="sheet-btn__n num">0</span>
+        Cart <span class="sheet-btn__n num">0</span>
       </a>
     </nav>
   </div>
@@ -38,7 +38,7 @@
   <section class="band band--tight walnut">
     <div class="wrap">
       <hr class="rule" style="max-width:8rem">
-      <h1 class="h-xxl" style="margin-top:1.25rem;color:var(--paste-050)">Your order sheet</h1>
+      <h1 class="h-xxl" style="margin-top:1.25rem;color:var(--paste-050)">Your cart</h1>
       <p class="lede" style="margin-top:1rem;max-width:62ch">This is a request, not a purchase. Add your date and details. Ajia will reply with a quote and lead time.</p>
     </div>
   </section>
@@ -51,7 +51,7 @@
       <div class="empty" id="sheet-empty" hidden>
         <div class="empty__mold" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <h2>Nothing struck yet</h2>
-        <p>Your sheet is empty. Pick pieces from the catalogue to get started.</p>
+        <p>Your cart is empty. Pick pieces from the catalogue to get started.</p>
         <a class="btn btn--brass" href="catalogue.html">Open the catalogue <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
 
@@ -157,14 +157,14 @@
         <div id="result" hidden style="margin-top:2.5rem">
           <hr class="rule" style="max-width:8rem;margin-bottom:1.5rem">
           <h2 class="h-xl">Your request is ready</h2>
-          <p style="color:var(--ink-500);margin:.75rem 0 1.25rem;max-width:60ch">This site has no ordering system wired up yet, so nothing has been sent. Copy the sheet below into an email or a message, or use the button to open your mail app with it already filled in.</p>
+        <p style="color:var(--ink-500);margin:.75rem 0 1.25rem;max-width:60ch">This site does not take payment yet, so nothing has been sent. Copy your cart below into an email or a message, or use the button to open your mail app with it already filled in.</p>
           <div class="field">
-            <label for="result-text">Your order sheet, as text</label>
+            <label for="result-text">Your cart, as text</label>
             <textarea id="result-text" readonly rows="18" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8125rem;line-height:1.5"></textarea>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem">
             <button class="btn btn--brass" id="result-copy" type="button">
-              <svg class="i" aria-hidden="true"><use href="#i-copy"/></svg> Copy the sheet
+              <svg class="i" aria-hidden="true"><use href="#i-copy"/></svg> Copy the cart
             </button>
             <a class="btn btn--carved" id="result-mail" href="#">
               <svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> Open in mail
@@ -172,7 +172,7 @@
           </div>
           <p class="notice" style="margin-top:1.75rem">
             <svg class="i" aria-hidden="true"><use href="#i-info"/></svg>
-            <span><b>For the developer.</b> Point this form at a real endpoint (Formspree, Netlify Forms, or a small handler) and delete this block. The sheet is already assembled as plain text in <code>buildSummary()</code> in <code>js/site.js</code>.</span>
+            <span><b>For the developer.</b> Point this form at a real endpoint (Formspree, Netlify Forms, or a small handler) and delete this block. The cart is already assembled as plain text in <code>buildSummary()</code> in <code>js/site.js</code>.</span>
           </p>
         </div>
       </div>
@@ -201,7 +201,7 @@
       <ul>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About Ajia</a></li>
-        <li><a href="order.html">Order sheet</a></li>
+        <li><a href="order.html">Cart</a></li>
       </ul>
     </div>
     <div>

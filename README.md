@@ -12,7 +12,7 @@ Open `index.html` or serve the folder and it runs.
 ## ⚠️ Not ready to publish as-is
 
 **Every price on this site is a placeholder.** So are the phone number, email, Instagram
-handle and all lead times. They are stand-ins so the order sheet adds up: they are not
+handle and all lead times. They are stand-ins so the cart adds up: they are not
 Ajia's real figures, and they are marked as fake on screen with a dashed underline and a
 `?` at each one.
 
@@ -35,7 +35,7 @@ See `PRODUCT.md` for exactly what is known versus what must not be invented.
 | Drop the "approx." size hedges | `js/data.js` → `SIZES_CONFIRMED = true` (measure first) |
 | Allergen + cross-contact statement | Owner-supplied. Currently absent. |
 
-Nothing is charged anywhere on this site. The order sheet is local-only and ends in an
+Nothing is charged anywhere on this site. The cart is local-only and ends in an
 inquiry, not a payment.
 
 ---
@@ -60,15 +60,15 @@ applies to. Do not caveat the headline claim, and do not extend it over the choc
 
 ```
 index.html          home
-catalogue.html      products, filterable, adds to the order sheet
+catalogue.html      products, filterable, adds to the cart
 gallery.html        grouped photographs and commissioned trays
 about.html          about Ajia
-order.html          the order sheet and inquiry form
+order.html          the cart and inquiry form
 
 css/mold.css        the whole design system
 js/products.json     human-editable product and tray data
 js/data.js           contact and site settings
-js/site.js          cart, order sheet, validation, summary
+js/site.js          cart, validation, summary
 js/icons.js         inline SVG sprite
 
 img/{full,card,thumb}   processed images the site serves

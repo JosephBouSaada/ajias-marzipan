@@ -1,7 +1,7 @@
 /* ==========================================================================
    Ajia's Marzipan: behaviour
    The strike: a cell is carved until it is struck, then the piece comes out.
-   The sheet: a local order sheet, no payment, no server.
+   The cart: a local cart, no payment, no server.
    ========================================================================== */
 (function () {
   "use strict";
@@ -192,7 +192,7 @@
     setQty(id, next);
     toast(
       "Added <b>" + step + " " + unitWord(p, step) + "</b> of " + esc(p.name) +
-        ". Your sheet now has <b>" + next + "</b>."
+        ". Your cart now has <b>" + next + "</b>."
     );
   }
   function unitWord(p, n) {
@@ -210,7 +210,7 @@
       if (slot) slot.textContent = String(n);
       el.setAttribute(
         "aria-label",
-        n === 0 ? "Order sheet, empty" : "Order sheet, " + n + (n === 1 ? " line" : " lines")
+        n === 0 ? "Cart, empty" : "Cart, " + n + (n === 1 ? " line" : " lines")
       );
     });
   }
@@ -327,7 +327,7 @@
             q +
             " " +
             unitWord(p, q) +
-            " on your sheet</p>"
+            " in your cart</p>"
           : "") +
         "</div></article>"
       );
@@ -358,13 +358,13 @@
     });
 
     document.addEventListener("sheet:change", function () {
-      /* keep the catalogue honest about what is already on the sheet */
+      /* keep the catalogue honest about what is already in the cart */
     });
 
     paintGoods();
   }
 
-  /* ------------------------------------------------------- order sheet --- */
+  /* ------------------------------------------------------------- cart --- */
   var linesEl = $("#lines");
   if (linesEl) {
     var tallyEl = $("#tally");
@@ -427,7 +427,7 @@
         p.id +
         '" aria-label="Remove ' +
         esc(p.name) +
-        ' from the sheet">' +
+        ' in your cart">' +
         svg("i-trash") +
         "</button>" +
         "</div>"
@@ -469,7 +469,7 @@
         };
         liveEl.textContent =
           t.lines === 0
-            ? "Your order sheet is empty."
+            ? "Your cart is empty."
             : [plural(t.lines, "line"), plural(t.pieces, "piece")]
                 .concat(t.trays ? [plural(t.trays, "tray")] : [])
                 .join(", ") + ".";
@@ -496,7 +496,7 @@
         var next = drop.closest(".line").nextElementSibling;
         setQty(did, 0);
         paintSheet();
-        toast(esc(name) + " removed from your order sheet.");
+        toast(esc(name) + " removed from your cart.");
         /* the button they pressed no longer exists: move them somewhere sensible */
         var land = next
           ? document.querySelector('[data-focus-key^="minus:"]')
@@ -511,7 +511,7 @@
       keepFocus(paintSheet);
     });
 
-    /* occasion + date live on the sheet, not just in the form */
+    /* occasion + date live in the cart, not just in the form */
     var occ = $("#occasion");
     var dat = $("#event-date");
     if (occ) {
@@ -619,7 +619,7 @@
             navigator.clipboard
               ? navigator.clipboard.writeText(ta.value)
               : document.execCommand("copy");
-            toast("Order sheet copied. Paste it into an email or a message.");
+            toast("Cart copied. Paste it into an email or a message.");
           } catch (err) {
             toast("Select the text above and copy it.");
           }
@@ -648,7 +648,7 @@
       L.push("  Guests    " + (v("guests") || "not set"));
       L.push("  Handover  " + v("handover"));
       L.push("");
-      L.push("THE SHEET");
+      L.push("THE CART");
       Object.keys(sheet.items).forEach(function (id) {
         var p = byId[id];
         var q = sheet.items[id];
