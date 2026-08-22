@@ -287,9 +287,6 @@
         '.jpg" alt="' +
         esc(p.alt) +
         '" loading="lazy" decoding="async" width="900" height="675">' +
-        '<span class="good__no num">No. ' +
-        p.no +
-        "</span>" +
         "</div>" +
         '<div class="good__body">' +
         '<h3 class="good__name">' +
@@ -298,6 +295,9 @@
         '<p class="good__say">' +
         esc(p.blurb) +
         "</p>" +
+        (p.colors
+          ? '<p class="good__say"><strong>Colours:</strong> ' + esc(p.colors.join(", ")) + ".</p>"
+          : "") +
         (p.dietNote ? '<p class="good__say"><em>' + esc(p.dietNote) + "</em></p>" : "") +
         '<div class="good__spec">' +
         "<span>" +

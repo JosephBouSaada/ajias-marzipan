@@ -1420,17 +1420,6 @@ p {
 .good:hover .good__shot img {
   transform: scale(1.045);
 }
-.good__no {
-  position: absolute;
-  top: 0.6rem;
-  left: 0.7rem;
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  color: var(--brass-300);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
-}
 .good__vg {
   position: absolute;
   top: 0.55rem;
