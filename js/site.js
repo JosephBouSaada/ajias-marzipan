@@ -141,8 +141,23 @@
   function read() {
     try {
       var raw = JSON.parse(localStorage.getItem(KEY) || "{}");
+      var items = raw.items && typeof raw.items === "object" ? raw.items : {};
+      [
+        ["baby-grey", "Grey"],
+        ["baby-blue", "Blue"],
+      ].forEach(function (entry) {
+        var id = entry[0];
+        var key = "baby-favor::" + entry[1];
+        if (!items[id]) return;
+        items[key] = (items[key] || 0) + items[id];
+        delete items[id];
+      });
+      if (items["baby-favor"]) {
+        items["baby-favor::Pink"] = (items["baby-favor::Pink"] || 0) + items["baby-favor"];
+        delete items["baby-favor"];
+      }
       return {
-        items: raw.items && typeof raw.items === "object" ? raw.items : {},
+        items: items,
         occasion: raw.occasion || "",
         date: raw.date || "",
       };
@@ -161,39 +176,64 @@
   }
 
   function totals() {
-    var t = { lines: 0, pieces: 0, trays: 0, packs: 0, sum: 0 };
-    Object.keys(sheet.items).forEach(function (id) {
-      var p = byId[id];
-      var q = sheet.items[id];
+    var t = { lines: 0, pieces: 0, trays: 0, packs: 0, lbs: 0, sum: 0 };
+    Object.keys(sheet.items).forEach(function (key) {
+      var p = itemProduct(key);
+      var q = sheet.items[key];
       if (!p || !q) return;
       t.lines += 1;
       t.sum += p.price * q;
       if (p.unit === "piece") t.pieces += q;
       else if (p.unit === "tray") t.trays += q;
+      else if (p.unit === "lb") t.lbs += q;
       else t.packs += q;
     });
     return t;
   }
 
   function setQty(id, q) {
-    var p = byId[id];
+    var p = itemProduct(id);
     if (!p) return;
     q = Math.max(0, Math.min(9999, Math.round(q || 0)));
     if (q === 0) delete sheet.items[id];
     else sheet.items[id] = q;
     save();
   }
-  function add(id) {
+  function add(id, variant) {
     var p = byId[id];
     if (!p) return;
+    var key = itemKey(id, variant);
     var step = Math.max(1, p.startQty || 1);
-    var have = sheet.items[id] || 0;
+    var have = sheet.items[key] || 0;
     var next = have + step;
-    setQty(id, next);
+    setQty(key, next);
     toast(
       "Added <b>" + step + " " + unitWord(p, step) + "</b> of " + esc(p.name) +
-        ". Your cart now has <b>" + next + "</b>."
+        (variant ? " in " + esc(variant) : "") + ". Your cart now has <b>" + next + "</b>."
     );
+  }
+  function itemKey(id, variant) {
+    return variant ? id + "::" + variant : id;
+  }
+  function itemProductId(key) {
+    return String(key).split("::")[0];
+  }
+  function itemVariant(key) {
+    return String(key).split("::").slice(1).join("::");
+  }
+  function itemProduct(key) {
+    return byId[itemProductId(key)];
+  }
+  function variantFor(p, name) {
+    if (!p || !name || !Array.isArray(p.variants)) return null;
+    return p.variants.filter(function (variant) {
+      return variant.name === name;
+    })[0] || null;
+  }
+  function quantityForProduct(id) {
+    return Object.keys(sheet.items).reduce(function (total, key) {
+      return itemProductId(key) === id ? total + (sheet.items[key] || 0) : total;
+    }, 0);
   }
   function unitWord(p, n) {
     var u = p.unit;
@@ -220,6 +260,7 @@
   if (goodsEl) {
     var activeCat = "all";
     var filtersEl = $("#filters");
+    var selectedVariants = {};
 
     var counts = {};
     D.CATEGORIES.forEach(function (c) {
@@ -274,19 +315,22 @@
     }
 
     function goodCard(p) {
-      var q = sheet.items[p.id] || 0;
+      var q = quantityForProduct(p.id);
       var step = Math.max(1, p.startQty || 1);
       var addLabel = q ? "Add " + step + " more" : "Add " + step + " " + unitWord(p, step);
+      var variants = Array.isArray(p.variants) && p.variants.length ? p.variants : null;
+      var shown = variants ? variantFor(p, selectedVariants[p.id]) || variants[0] : { photo: p.photo, alt: p.alt };
       return (
         '<article class="good" data-good="' +
         p.id +
         '">' +
         '<div class="good__shot">' +
         '<img src="img/card/' +
-        p.photo +
+        shown.photo +
         '.jpg" alt="' +
-        esc(p.alt) +
+        esc(shown.alt) +
         '" loading="lazy" decoding="async" width="900" height="675">' +
+        (p.no ? '<span class="good__no num">No. ' + esc(p.no) + "</span>" : "") +
         "</div>" +
         '<div class="good__body">' +
         '<h3 class="good__name">' +
@@ -295,6 +339,35 @@
         '<p class="good__say">' +
         esc(p.blurb) +
         "</p>" +
+        (variants
+          ? '<div class="good__variants"><p class="good__variant-label">Colour: <strong class="good__variant-name">' +
+            esc(shown.name) +
+            '</strong></p><div class="good__thumbs" role="group" aria-label="Choose a colour">' +
+            variants
+              .map(function (variant, index) {
+                return (
+                  '<button type="button" class="good__thumb" data-variant-photo="' +
+                  esc(variant.photo) +
+                  '" data-variant-alt="' +
+                  esc(variant.alt) +
+                  '" data-variant-name="' +
+                  esc(variant.name) +
+                  '" aria-pressed="' +
+                  (variant.name === shown.name ? "true" : "false") +
+                  '" aria-label="Show ' +
+                  esc(variant.name) +
+                  ' baby favor">' +
+                  '<img src="img/thumb/' +
+                  esc(variant.photo) +
+                  '.jpg" alt="" loading="lazy" decoding="async">' +
+                  '<span class="good__thumb-label">' +
+                  esc(variant.name) +
+                  "</span></button>"
+                );
+              })
+              .join("") +
+            "</div></div>"
+          : "") +
         (p.colors
           ? '<p class="good__say"><strong>Colours:</strong> ' + esc(p.colors.join(", ")) + ".</p>"
           : "") +
@@ -313,6 +386,7 @@
         "</small></p>" +
         '<button type="button" class="btn btn--brass btn--sm" data-add="' +
         p.id +
+        (variants ? '" data-variant="' + esc(shown.name) : "") +
         '" data-focus-key="add:' +
         p.id +
         '">' +
@@ -351,9 +425,27 @@
     }
 
     goodsEl.addEventListener("click", function (e) {
+      var variant = e.target.closest("[data-variant-photo]");
+      if (variant) {
+        var card = variant.closest(".good");
+        var main = $(".good__shot img", card);
+        var name = $(".good__variant-name", card);
+        if (main) {
+          main.src = "img/card/" + variant.getAttribute("data-variant-photo") + ".jpg";
+          main.alt = variant.getAttribute("data-variant-alt");
+        }
+        selectedVariants[card.getAttribute("data-good")] = variant.getAttribute("data-variant-name");
+        if (name) name.textContent = variant.getAttribute("data-variant-name");
+        var addButton = $("[data-add]", card);
+        if (addButton) addButton.setAttribute("data-variant", variant.getAttribute("data-variant-name"));
+        $$(".good__thumb", card).forEach(function (thumb) {
+          thumb.setAttribute("aria-pressed", String(thumb === variant));
+        });
+        return;
+      }
       var b = e.target.closest("[data-add]");
       if (!b) return;
-      add(b.getAttribute("data-add"));
+      add(b.getAttribute("data-add"), b.getAttribute("data-variant"));
       keepFocus(paintGoods);
     });
 
@@ -371,17 +463,21 @@
     var emptyEl = $("#sheet-empty");
     var liveEl = $("#sheet-live");
 
-    function lineRow(p, q) {
+    function lineRow(key, p, q) {
+      var variant = itemVariant(key);
+      var selected = variantFor(p, variant);
+      var photo = selected ? selected.photo : p.photo;
+      var name = p.name + (variant ? " · " + variant : "");
       return (
         '<div class="line" data-line="' +
-        p.id +
+        key +
         '">' +
         '<figure class="line__shot"><img src="img/thumb/' +
-        p.photo +
+        photo +
         '.jpg" alt="" loading="lazy" decoding="async" width="420" height="420"></figure>' +
         "<div>" +
         '<p class="line__name">' +
-        esc(p.name) +
+        esc(name) +
         "</p>" +
         '<p class="line__meta num">' +
         price(p.price) +
@@ -393,29 +489,29 @@
         "</div>" +
         '<div class="qty">' +
         '<button type="button" data-step="-1" data-id="' +
-        p.id +
+        key +
         '" data-focus-key="minus:' +
-        p.id +
+        key +
         '" aria-label="One fewer ' +
-        esc(p.name) +
+        esc(name) +
         '">' +
         svg("i-minus") +
         "</button>" +
         '<input type="number" inputmode="numeric" min="0" value="' +
         q +
         '" data-qty="' +
-        p.id +
+        key +
         '" data-focus-key="qty:' +
-        p.id +
+        key +
         '" aria-label="Quantity of ' +
-        esc(p.name) +
+        esc(name) +
         '">' +
         '<button type="button" data-step="1" data-id="' +
-        p.id +
+        key +
         '" data-focus-key="plus:' +
-        p.id +
+        key +
         '" aria-label="One more ' +
-        esc(p.name) +
+        esc(name) +
         '">' +
         svg("i-plus") +
         "</button>" +
@@ -424,9 +520,9 @@
         price(p.price * q) +
         "</p>" +
         '<button type="button" class="line__x" data-drop="' +
-        p.id +
+        key +
         '" aria-label="Remove ' +
-        esc(p.name) +
+        esc(name) +
         ' in your cart">' +
         svg("i-trash") +
         "</button>" +
@@ -435,8 +531,8 @@
     }
 
     function paintSheet() {
-      var ids = Object.keys(sheet.items).filter(function (id) {
-        return byId[id] && sheet.items[id] > 0;
+      var ids = Object.keys(sheet.items).filter(function (key) {
+        return itemProduct(key) && sheet.items[key] > 0;
       });
       var t = totals();
 
@@ -445,8 +541,8 @@
       if (wrapEl) wrapEl.hidden = ids.length === 0;
 
       linesEl.innerHTML = ids
-        .map(function (id) {
-          return lineRow(byId[id], sheet.items[id]);
+        .map(function (key) {
+          return lineRow(key, itemProduct(key), sheet.items[key]);
         })
         .join("");
 
@@ -456,6 +552,7 @@
           row("Pieces", t.pieces) +
           row("Trays", t.trays) +
           row("Boxes & jars", t.packs) +
+          row("Pounds", t.lbs) +
           '<div class="tally__row tally__row--total"><dt>Estimate' +
           (D.PLACEHOLDER.on ? '<b class="ph-tag">placeholder</b>' : "") +
           '</dt><dd class="num">' +
@@ -472,6 +569,7 @@
             ? "Your cart is empty."
             : [plural(t.lines, "line"), plural(t.pieces, "piece")]
                 .concat(t.trays ? [plural(t.trays, "tray")] : [])
+                .concat(t.lbs ? [plural(t.lbs, "pound")] : [])
                 .join(", ") + ".";
       }
       var sub = $("#submit");
@@ -492,7 +590,8 @@
       var drop = e.target.closest("[data-drop]");
       if (drop) {
         var did = drop.getAttribute("data-drop");
-        var name = byId[did] ? byId[did].name : "That line";
+        var product = itemProduct(did);
+        var name = product ? product.name + (itemVariant(did) ? " · " + itemVariant(did) : "") : "That line";
         var next = drop.closest(".line").nextElementSibling;
         setQty(did, 0);
         paintSheet();
@@ -649,15 +748,16 @@
       L.push("  Handover  " + v("handover"));
       L.push("");
       L.push("THE CART");
-      Object.keys(sheet.items).forEach(function (id) {
-        var p = byId[id];
-        var q = sheet.items[id];
+      Object.keys(sheet.items).forEach(function (key) {
+        var p = itemProduct(key);
+        var q = sheet.items[key];
         if (!p || !q) return;
+        var name = p.name + (itemVariant(key) ? " · " + itemVariant(key) : "");
         L.push(
           "  No." +
             p.no +
             "  " +
-            pad(p.name, 32) +
+            pad(name, 32) +
             pad(q + " " + unitWord(p, q), 14) +
             money.format(p.price * q)
         );
@@ -666,6 +766,7 @@
       L.push("  Pieces        " + t.pieces);
       L.push("  Trays         " + t.trays);
       L.push("  Boxes & jars  " + t.packs);
+      L.push("  Pounds        " + t.lbs);
       L.push("  Estimate      " + money.format(t.sum) + (D.PLACEHOLDER.on ? "  (placeholder pricing)" : ""));
       if (v("notes")) {
         L.push("");

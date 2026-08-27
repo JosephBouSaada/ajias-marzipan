@@ -3,7 +3,7 @@ window.AJIA = (function () {
   var raw = { categories: [], products: [], trayGroups: [] };
   try {
     var request = new XMLHttpRequest();
-    request.open("GET", "js/products.json?v=5", false);
+    request.open("GET", "js/products.json?v=7", false);
     request.send(null);
     if (request.status >= 200 && request.status < 300) raw = JSON.parse(request.responseText);
   } catch (error) {

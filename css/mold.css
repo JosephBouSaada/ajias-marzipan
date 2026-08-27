@@ -1420,6 +1420,17 @@ p {
 .good:hover .good__shot img {
   transform: scale(1.045);
 }
+.good__no {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.7rem;
+  color: var(--brass-300);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+}
 .good__vg {
   position: absolute;
   top: 0.55rem;
@@ -1459,6 +1470,56 @@ p {
   line-height: 1.5;
   color: var(--ink-500);
   flex: 1;
+}
+.good__variants {
+  margin-top: 0.8rem;
+}
+.good__variant-label {
+  margin: 0;
+  color: var(--ink-700);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.good__variant-name {
+  color: var(--ink-900);
+}
+.good__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+.good__thumb {
+  width: 3rem;
+  padding: 2px;
+  border: 1px solid var(--sand-500);
+  border-radius: 2px;
+  background: var(--cream-100);
+  cursor: pointer;
+}
+.good__thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.good__thumb-label {
+  display: block;
+  padding-top: 0.18rem;
+  color: var(--ink-700);
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+.good__thumb:hover,
+.good__thumb[aria-pressed="true"] {
+  border-color: var(--brass-700);
+}
+.good__thumb[aria-pressed="true"] {
+  box-shadow: 0 0 0 1px var(--brass-700);
+}
+.good__thumb:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
 }
 .good__spec {
   display: flex;
