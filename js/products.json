@@ -31,8 +31,7 @@
   "trayGroups": [
     { "id": "rose-trays", "name": "Rose trays", "description": "Long and round trays, from quiet cream roses to full table centrepieces.", "photos": ["rose-trays-pair-linen", "rose-trays-angled-linen", "rose-tray-round-linen", "rose-tray-pearl-linen", "rose-tray-gold-linen", "rose-trays-close-linen", "rose-trays-gold-pair-linen", "cream-blossom-tray-linen"] },
     { "id": "baptism-trays", "name": "Baptism trays", "description": "Sleeping babies arranged in rings or gathered close for a christening table.", "photos": ["baby-tray-full-linen", "baby-tray-round-linen", "baby-tray-close-linen", "baby-tray-massed-linen", "baby-tray-rings-linen"] },
-    { "id": "dahlia-trays", "name": "Dahlia trays", "description": "Long trays of coral and cream dahlias with sculpted leaves.", "photos": ["dahlia-tray-long-linen", "dahlia-tray-angled-linen", "dahlia-tray-top-linen", "dahlia-tray-alt-linen"] },
-    { "id": "holiday-trays", "name": "Holiday trays", "description": "Poinsettias and seasonal flowers for a table, a party or a gift.", "photos": ["christmas-tray-round-linen", "christmas-plate-gold-linen", "christmas-tray-coral-linen"] },
+    { "id": "holiday-trays", "name": "Holiday trays", "description": "Poinsettias and seasonal flowers for a table, a party or a gift.", "photos": ["christmas-tray-round-linen", "christmas-plate-gold-linen", "christmas-tray-coral-linen", "dahlia-tray-long-linen", "dahlia-tray-angled-linen", "dahlia-tray-top-linen", "dahlia-tray-alt-linen"] },
     { "id": "custom-trays", "name": "Party and custom trays", "description": "A colour story, a character or a full table built around your theme.", "photos": ["party-teal-tray-linen", "grapes-purple-tray-linen"] }
   ]
 }
