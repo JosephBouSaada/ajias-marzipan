@@ -19,7 +19,7 @@ window.AJIA = (function () {
     CONTACT: {
       phone: "+1 (978) 387-4774",
       phoneHref: "tel:+19783874774",
-      email: "agiaeliaa@gmail.com",
+      email: "ajiasmarzipan@gmail.com",
       instagram: "@ajias.marzipan",
       instagramHref: "https://www.instagram.com/ajias.marzipan/",
       area: "Greater Boston",
