@@ -46,7 +46,7 @@ is the thing a neighboring business cannot truthfully copy.
   browsing.
 - Output is produced in trays, boxes, and individually cello-wrapped favors with ribbon.
 - Serving formats seen in the archive: round gold centerpiece trays, long rectangular gold
-  trays, gift boxes with gold cups (15 / 24 / 30-piece grids), glass jars, single wrapped
+  trays, gift boxes with gold cups (15 / 24 / 30-piece grids), single wrapped
   pieces, lollipop-mounted figures.
 - Occasions in the archive: weddings, baptisms/christenings, first communion, Christmas,
   Easter, Valentine's, birthdays and themed kids' parties.
@@ -64,7 +64,6 @@ Confirmed repertoire, evidenced by the photo archive:
 - **Fruit** — grape clusters with sculpted leaves, watermelon slices, lemons, oranges,
   peaches, pears.
 - **Flowers** — dahlias/chrysanthemums, poinsettias, daisies, fluted rosettes.
-- **Chocolate-dipped marzipan** — dark and milk, sold by the jar.
 - **Holiday boxes** — Christmas red/green assortments, Easter pastel eggs, bunnies, carrots.
 - **Party / themed** — custom characters and colors to a party theme.
 
@@ -73,18 +72,9 @@ vegan**. This is a genuine differentiator at a mixed-guest sweet table, where mo
 alternatives (cake, cookies, cream pastry) exclude someone. It is a first-class product
 fact, not a footnote — the owner has raised it twice unprompted.
 
-**Scope of the claim, resolved with the owner:** the claim belongs to the marzipan, not to
-the chocolate. Chocolate is the one component Ajia buys in rather than makes, so both
-chocolate-dipped products sit outside the vegan and dairy-free claim:
-
-- Milk-chocolate-dipped — contains dairy. Not dairy-free, not vegan. Stated plainly.
-- Dark-chocolate-dipped — **not yet confirmed** by the owner. Many dark chocolates carry
-  milk fat or are made on shared lines, so the site does not assert it. The card tells the
-  visitor to ask her.
-
-Neither chocolate product carries a dietary badge. Every other product does. Site copy says
-"the marzipan is gluten-free, dairy-free and vegan" rather than an unqualified blanket
-claim. An allergen and cross-contact statement is still owner-supplied and ships marked.
+Every current product follows the same vegan, gluten-free and dairy-free promise. All
+products contain almonds. An allergen and cross-contact statement is still owner-supplied
+and ships marked.
 
 Constraints: everything is made to order by hand; the site takes inquiries, not payments.
 

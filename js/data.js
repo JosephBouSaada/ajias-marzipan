@@ -3,7 +3,7 @@ window.AJIA = (function () {
   var raw = { categories: [], products: [], trayGroups: [] };
   try {
     var request = new XMLHttpRequest();
-    request.open("GET", "js/products.json?v=19", false);
+    request.open("GET", "js/products.json?v=21", false);
     request.send(null);
     if (request.status >= 200 && request.status < 300) raw = JSON.parse(request.responseText);
   } catch (error) {
@@ -22,6 +22,8 @@ window.AJIA = (function () {
       email: "ajiasmarzipan@gmail.com",
       instagram: "@ajias.marzipan",
       instagramHref: "https://www.instagram.com/ajias.marzipan/",
+      whatsapp: "WhatsApp +1 (978) 387-4774",
+      whatsappHref: "https://wa.me/19783874774",
       area: "Greater Boston",
       placeholder: false,
     },

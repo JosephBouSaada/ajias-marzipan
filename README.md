@@ -38,14 +38,8 @@ timing and the final price.
 The marzipan is **gluten-free, dairy-free and vegan**: almonds and sugar, not a
 substitution or a special order. This is a first-class product fact, not a footnote.
 
-Chocolate is the one component Ajia buys in rather than makes, so the two chocolate-dipped
-products sit outside the claim and say so on their own cards:
-
-- **Milk chocolate**: contains dairy. Not dairy-free, not vegan.
-- **Dark chocolate**: not yet confirmed by the owner, so the site does not assert it.
-
-The claim is stated plainly at brand level; the exception is labelled on the two items it
-applies to. Do not caveat the headline claim, and do not extend it over the chocolate.
+Every item currently listed follows that dietary promise. All products contain almonds,
+and customers with allergies should contact Ajia before ordering.
 
 ---
 

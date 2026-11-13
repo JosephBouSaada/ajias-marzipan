@@ -1161,6 +1161,26 @@ p {
 .foot a:hover {
   color: var(--brass-300);
 }
+.foot__contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 1.5rem;
+  max-width: 100%;
+}
+.foot__contact span {
+  overflow-wrap: anywhere;
+}
+.foot__contact .i {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  color: var(--brass-400);
+}
+.foot__contact a:hover .i,
+.foot__contact a:focus-visible .i {
+  color: var(--brass-300);
+}
 .foot__mark {
   font-family: var(--face-display);
   font-size: 1.5rem;

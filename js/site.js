@@ -431,7 +431,11 @@
   /* --------------------------------------------------------- placeholders */
   $$("[data-contact]").forEach(function (el) {
     var k = el.getAttribute("data-contact");
-    if (D.CONTACT[k]) el.textContent = D.CONTACT[k];
+    var label = el.querySelector("span");
+    if (D.CONTACT[k]) {
+      if (label) label.textContent = D.CONTACT[k];
+      else el.textContent = D.CONTACT[k];
+    }
     if (k === "phone") {
       el.setAttribute("href", D.CONTACT.phoneHref || "#");
       el.classList.remove("todo");
@@ -440,6 +444,12 @@
     }
     if (k === "instagram") {
       el.setAttribute("href", D.CONTACT.instagramHref || "#");
+      el.classList.remove("todo");
+      el.removeAttribute("title");
+      return;
+    }
+    if (k === "whatsapp") {
+      el.setAttribute("href", D.CONTACT.whatsappHref || "#");
       el.classList.remove("todo");
       el.removeAttribute("title");
       return;
