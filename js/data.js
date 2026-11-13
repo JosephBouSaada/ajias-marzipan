@@ -3,7 +3,7 @@ window.AJIA = (function () {
   var raw = { categories: [], products: [], trayGroups: [] };
   try {
     var request = new XMLHttpRequest();
-    request.open("GET", "js/products.json?v=9", false);
+    request.open("GET", "js/products.json?v=19", false);
     request.send(null);
     if (request.status >= 200 && request.status < 300) raw = JSON.parse(request.responseText);
   } catch (error) {
@@ -12,18 +12,18 @@ window.AJIA = (function () {
 
   return {
     PLACEHOLDER: {
-      on: true,
-      note: "Prices and contact details are placeholders, not Ajia's real figures.",
+      on: false,
+      note: "Prices and contact details are current.",
     },
     SIZES_CONFIRMED: false,
     CONTACT: {
-      phone: "(617) 000-0000",
-      phoneHref: "tel:+16170000000",
-      email: "ajia-email-not-set@example.invalid",
-      instagram: "ajiasmarzipan",
-      instagramHref: "https://instagram.com/",
+      phone: "+1 (978) 387-4774",
+      phoneHref: "tel:+19783874774",
+      email: "agiaeliaa@gmail.com",
+      instagram: "@ajias.marzipan",
+      instagramHref: "https://www.instagram.com/ajias.marzipan/",
       area: "Greater Boston",
-      placeholder: true,
+      placeholder: false,
     },
     CATEGORIES: raw.categories,
     PRODUCTS: raw.products,

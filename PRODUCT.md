@@ -9,8 +9,8 @@ web
 ## Stack
 
 Plain static HTML/CSS/JS (user's answer). No build step, no framework, no dependencies.
-Deployable to any static host. Ordering is a client-side cart that terminates in an
-inquiry form; real payments are explicitly deferred and must not be implied.
+Deployable to any static host. Customers browse the catalogue and call Ajia directly;
+the site does not collect orders or payments.
 
 ## Users
 
@@ -89,8 +89,8 @@ claim. An allergen and cross-contact statement is still owner-supplied and ships
 Constraints: everything is made to order by hand; the site takes inquiries, not payments.
 
 Undecided / not yet supplied by the owner (must ship as clearly marked placeholders and
-must never be invented): phone number, email address, Instagram handle, exact prices,
-lead times, order minimums, delivery radius specifics, allergen statement wording,
+must never be invented): lead times, order minimums,
+delivery radius specifics, allergen statement wording,
 business address or pickup location, cottage-food / licensing status.
 
 ## Brand Commitments

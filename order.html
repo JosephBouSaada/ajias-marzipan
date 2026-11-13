@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your cart: Ajia's Marzipan</title>
-<meta name="description" content="Build your cart, add your date and guest count, and send it to Ajia. No payment is taken here: she replies with a firm quote.">
+<title>Call Ajia to order: Ajia's Marzipan</title>
+<meta name="description" content="Call Ajia to discuss a hand-sculpted marzipan order, including the listing number, quantity, colours, event date, pickup or local delivery.">
 <meta name="theme-color" content="#0d0805">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/mold.css">
+<link rel="stylesheet" href="css/mold.css?v=4">
 </head>
 <body>
 <script src="js/icons.js"></script>
@@ -26,10 +26,6 @@
       <a href="catalogue.html">Catalogue</a>
       <a href="gallery.html">Gallery</a>
       <a href="about.html">About Ajia</a>
-      <a class="sheet-btn" href="order.html" data-sheet-count data-empty="true" aria-current="page">
-        <svg class="i" aria-hidden="true"><use href="#i-sheet"/></svg>
-        Cart <span class="sheet-btn__n num">0</span>
-      </a>
     </nav>
   </div>
 </header>
@@ -38,143 +34,45 @@
   <section class="band band--tight walnut">
     <div class="wrap">
       <hr class="rule" style="max-width:8rem">
-      <h1 class="h-xxl" style="margin-top:1.25rem;color:var(--paste-050)">Your cart</h1>
-      <p class="lede" style="margin-top:1rem;max-width:62ch">This is a request, not a purchase. Add your date and details. Ajia will reply with a quote and lead time.</p>
+      <h1 class="h-xxl" style="margin-top:1.25rem;color:var(--paste-050)">Call Ajia to place an order</h1>
+      <p class="lede" style="margin-top:1rem;max-width:62ch">Every piece is made by hand. Ajia will confirm availability, timing and the final price with you directly.</p>
     </div>
   </section>
 
-  <section class="band paste">
-    <div class="wrap">
-      <p class="sr" id="sheet-live" role="status" aria-live="polite"></p>
-
-      <!-- empty state: a mold with nothing struck yet -->
-      <div class="empty" id="sheet-empty" hidden>
-        <div class="empty__mold" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <h2>Nothing struck yet</h2>
-        <p>Your cart is empty. Pick pieces from the catalogue to get started.</p>
-        <a class="btn btn--brass" href="catalogue.html">Open the catalogue <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  <section class="band paste" id="call">
+    <div class="wrap spread">
+      <div class="spread__say">
+        <hr class="rule">
+        <h2>What to have ready</h2>
+        <p>Browse the catalogue first, then tell Ajia which piece you are considering.</p>
+        <ul class="spread__list">
+          <li>The listing number or product name</li>
+          <li>The quantity you need</li>
+          <li>Your colours or theme</li>
+          <li>The event date and town</li>
+          <li>Pickup or local delivery</li>
+        </ul>
+        <div class="spread__acts">
+          <a class="btn btn--brass" href="tel:+19783874774"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> Call +1 (978) 387-4774</a>
+        </div>
       </div>
+      <figure class="plate">
+        <img src="img/card/rose-box-six-linen.jpg" alt="Six pale marzipan roses arranged in a white gift box" loading="lazy" decoding="async" width="900" height="675">
+        <figcaption>
+          <p class="plate__t">Made for your occasion</p>
+          <p class="plate__d">Ask about colours, quantities and custom shapes.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
 
-      <div id="sheet-wrap" hidden>
-        <div class="sheet">
-          <div>
-            <h2 class="h-xl" style="margin-bottom:1.25rem">The lines</h2>
-            <div class="lines" id="lines"></div>
-            <p style="margin-top:1.25rem"><a class="scored" href="catalogue.html">Add more from the catalogue <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-          </div>
-
-          <aside class="tally">
-            <p class="tally__hd">The tally</p>
-            <div id="tally"></div>
-            <div class="tally__foot">
-              <p class="tally__note">The estimate uses placeholder prices and does not include delivery. Ajia's quote is the real number.</p>
-            </div>
-          </aside>
-        </div>
-
-        <hr class="rule" style="margin:clamp(2.5rem,5vw,4rem) 0 2rem;max-width:8rem">
-
-        <h2 class="h-xl" style="margin-bottom:.75rem">Where it is going</h2>
-        <p style="color:var(--ink-500);margin-bottom:2rem">Your date and guest count help Ajia plan.</p>
-
-        <form class="form" id="request" novalidate>
-          <div class="row2">
-            <div class="field" data-required>
-              <label for="name">Your name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required>
-              <span class="err"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg> Ajia needs a name to reply to.</span>
-            </div>
-            <div class="field" data-required>
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required>
-              <span class="err"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg> Enter an email address she can reach you at.</span>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field">
-              <label for="phone">Phone <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel">
-            </div>
-            <div class="field" data-required>
-              <label for="town">Town</label>
-              <input id="town" name="town" type="text" placeholder="Watertown, Newton, Belmont…" required>
-              <span class="err"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg> Tell her which town, so she can work out delivery.</span>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field" data-required>
-              <label for="occasion">Occasion</label>
-              <select id="occasion" name="occasion" required>
-                <option value="">Choose one</option>
-                <option>Wedding</option>
-                <option>Baptism or christening</option>
-                <option>First communion</option>
-                <option>Engagement</option>
-                <option>Birthday or party</option>
-                <option>Holiday</option>
-                <option>A gift</option>
-                <option>Something else</option>
-              </select>
-              <span class="err"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg> Pick the occasion: it changes what she suggests.</span>
-            </div>
-            <div class="field" data-required>
-              <label for="event-date">Date of the event</label>
-              <input id="event-date" name="event-date" type="date" required>
-              <span class="err"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg> She checks the date first. Give her one.</span>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field">
-              <label for="guests">How many guests</label>
-              <input id="guests" name="guests" type="number" min="1" inputmode="numeric" placeholder="120">
-              <small>Rough is fine. It tells her how many favours you really need.</small>
-            </div>
-            <div class="field">
-              <label for="handover">Pickup or delivery</label>
-              <select id="handover" name="handover">
-                <option>Not sure yet</option>
-                <option>Pickup</option>
-                <option>Delivery</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="notes">Colours &amp; special requests</label>
-            <textarea id="notes" name="notes" placeholder="Dusty rose to match the bridesmaids. And can you do the number 40 in marzipan?"></textarea>
-          </div>
-
-          <div>
-            <button class="btn btn--brass" id="submit" type="submit">
-              <svg class="i" aria-hidden="true"><use href="#i-sheet"/></svg> Prepare my request
-            </button>
-          </div>
-        </form>
-
-        <div id="result" hidden style="margin-top:2.5rem">
-          <hr class="rule" style="max-width:8rem;margin-bottom:1.5rem">
-          <h2 class="h-xl">Your request is ready</h2>
-        <p style="color:var(--ink-500);margin:.75rem 0 1.25rem;max-width:60ch">This site does not take payment yet, so nothing has been sent. Copy your cart below into an email or a message, or use the button to open your mail app with it already filled in.</p>
-          <div class="field">
-            <label for="result-text">Your cart, as text</label>
-            <textarea id="result-text" readonly rows="18" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8125rem;line-height:1.5"></textarea>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem">
-            <button class="btn btn--brass" id="result-copy" type="button">
-              <svg class="i" aria-hidden="true"><use href="#i-copy"/></svg> Copy the cart
-            </button>
-            <a class="btn btn--carved" id="result-mail" href="#">
-              <svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> Open in mail
-            </a>
-          </div>
-          <p class="notice" style="margin-top:1.75rem">
-            <svg class="i" aria-hidden="true"><use href="#i-info"/></svg>
-            <span><b>For the developer.</b> Point this form at a real endpoint (Formspree, Netlify Forms, or a small handler) and delete this block. The cart is already assembled as plain text in <code>buildSummary()</code> in <code>js/site.js</code>.</span>
-          </p>
-        </div>
+  <section class="close walnut">
+    <div class="wrap">
+      <h2>Start with the catalogue</h2>
+      <p>Listing numbers make it easy to tell Ajia which piece you have in mind. For something custom, describe the idea when you call.</p>
+      <div class="close__acts">
+        <a class="btn btn--brass" href="catalogue.html">Open the catalogue <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn--carved" href="gallery.html">See the gallery</a>
       </div>
     </div>
   </section>
@@ -201,25 +99,24 @@
       <ul>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About Ajia</a></li>
-        <li><a href="order.html">Cart</a></li>
       </ul>
     </div>
     <div>
       <h3>Reach her</h3>
       <ul>
-        <li><a href="#" data-contact="phone" class="todo" title="Placeholder: awaiting Ajia's real number">(617) 000-0000</a></li>
-        <li><a href="#" data-contact="email" class="todo" title="Placeholder: awaiting Ajia's real address">ajia-email-not-set@example.invalid</a></li>
-        <li><a href="https://instagram.com/" class="todo" title="Placeholder: awaiting Ajia's real handle" rel="noopener">Instagram</a></li>
+        <li><a href="tel:+19783874774" data-contact="phone">+1 (978) 387-4774</a></li>
+        <li><a href="mailto:agiaeliaa@gmail.com" data-contact="email">agiaeliaa@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/ajias.marzipan/" data-contact="instagram" rel="noopener">@ajias.marzipan</a></li>
       </ul>
     </div>
   </div>
   <div class="wrap foot__base">
     <p>© <span class="num">2026</span> Ajia's Marzipan · Greater Boston</p>
-    <p>Contact details shown are placeholders pending Ajia's confirmation.</p>
+    <p>Call or email Ajia to discuss your order.</p>
   </div>
 </footer>
 
-<script src="js/data.js?v=9"></script>
-<script src="js/site.js?v=10"></script>
+<script src="js/data.js?v=22"></script>
+<script src="js/site.js?v=21"></script>
 </body>
 </html>

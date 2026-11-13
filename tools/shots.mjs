@@ -19,12 +19,6 @@ const targets = [
   { name: "mobile", width: 390, height: 844, dsf: 3, mobile: true, slice: 1150, out: 620, maxPanels: 6 },
 ];
 
-const SEED = {
-  items: { "rose-single": 120, "baby-favor": 60, "baby-tray": 2, "choc-dark": 3 },
-  occasion: "Baptism or christening",
-  date: "",
-};
-
 const browser = await chromium.launch();
 const problems = [];
 
@@ -41,10 +35,6 @@ for (const t of targets) {
 
   for (const p of pages) {
     await page.goto(`${BASE}/${p}.html`, { waitUntil: "networkidle" });
-    if (p === "order") {
-      await page.evaluate((s) => localStorage.setItem("ajia.sheet.v2", JSON.stringify(s)), SEED);
-      await page.reload({ waitUntil: "networkidle" });
-    }
     // settle entrance motion so nothing reads as a missing element
     await page.evaluate(() =>
       document.querySelectorAll(".cell").forEach((c) => c.classList.add("is-struck"))

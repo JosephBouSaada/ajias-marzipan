@@ -1,7 +1,6 @@
 /* ==========================================================================
    Ajia's Marzipan: behaviour
    The strike: a cell is carved until it is struck, then the piece comes out.
-   The cart: a local cart, no payment, no server.
    ========================================================================== */
 (function () {
   "use strict";
@@ -13,11 +12,6 @@
   var $$ = function (s, r) {
     return Array.prototype.slice.call((r || document).querySelectorAll(s));
   };
-  var byId = {};
-  D.PRODUCTS.forEach(function (p) {
-    byId[p.id] = p;
-  });
-
   var money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
   var esc = function (s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -42,29 +36,9 @@
   function size(p) {
     if (p.sizeMeasured || D.SIZES_CONFIRMED) return esc(p.size);
     return (
-      '<span class="ph" title="' + PH_SIZE + '">approx. ' + esc(p.size) +
+      '<span class="ph" title="' + PH_SIZE + '">' + esc(p.size) +
       '<i aria-hidden="true">?</i><span class="sr"> (estimated, not yet measured)</span></span>'
     );
-  }
-
-  /* A repaint that drops focus makes the keyboard path unusable: remember which
-     control the user was on, and put them back on it. */
-  function keepFocus(repaint) {
-    var el = document.activeElement;
-    var key = el && el !== document.body ? el.getAttribute("data-focus-key") : null;
-    var caret = el && el.setSelectionRange && el.type !== "number" ? el.selectionStart : null;
-    repaint();
-    if (!key) return;
-    var back = document.querySelector('[data-focus-key="' + key.replace(/"/g, '\\"') + '"]');
-    if (!back) return;
-    back.focus({ preventScroll: true });
-    if (caret != null && back.setSelectionRange) {
-      try {
-        back.setSelectionRange(caret, caret);
-      } catch (e) {
-        /* not a text input */
-      }
-    }
   }
 
   /* ---------------------------------------------------------------- nav -- */
@@ -115,152 +89,35 @@
     });
   }
 
-  /* -------------------------------------------------------------- toast -- */
-  var toastEl;
-  var toastT;
-  function toast(html) {
-    if (!toastEl) {
-      toastEl = document.createElement("div");
-      toastEl.className = "toast";
-      toastEl.setAttribute("role", "status");
-      toastEl.setAttribute("aria-live", "polite");
-      document.body.appendChild(toastEl);
-    }
-    toastEl.innerHTML = svg("i-check") + "<span>" + html + "</span>";
-    toastEl.setAttribute("data-show", "true");
-    clearTimeout(toastT);
-    toastT = setTimeout(function () {
-      toastEl.setAttribute("data-show", "false");
-    }, 3200);
-  }
-
-  /* --------------------------------------------------------------- sheet -- */
-  var KEY = "ajia.sheet.v2";
-  var sheet = read();
-
-  function read() {
-    try {
-      var raw = JSON.parse(localStorage.getItem(KEY) || "{}");
-      var items = raw.items && typeof raw.items === "object" ? raw.items : {};
-      [
-        ["baby-grey", "Grey"],
-        ["baby-blue", "Blue"],
-      ].forEach(function (entry) {
-        var id = entry[0];
-        var key = "baby-favor::" + entry[1];
-        if (!items[id]) return;
-        items[key] = (items[key] || 0) + items[id];
-        delete items[id];
-      });
-      if (items["baby-favor"]) {
-        items["baby-favor::Pink"] = (items["baby-favor::Pink"] || 0) + items["baby-favor"];
-        delete items["baby-favor"];
-      }
-      return {
-        items: items,
-        occasion: raw.occasion || "",
-        date: raw.date || "",
-      };
-    } catch (e) {
-      return { items: {}, occasion: "", date: "" };
-    }
-  }
-  function save() {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(sheet));
-    } catch (e) {
-      /* private mode: the sheet simply does not persist */
-    }
-    paintCount();
-    document.dispatchEvent(new CustomEvent("sheet:change"));
-  }
-
-  function totals() {
-    var t = { lines: 0, pieces: 0, trays: 0, packs: 0, lbs: 0, sum: 0 };
-    Object.keys(sheet.items).forEach(function (key) {
-      var p = itemProduct(key);
-      var q = sheet.items[key];
-      if (!p || !q) return;
-      t.lines += 1;
-      t.sum += p.price * q;
-      if (p.unit === "piece") t.pieces += q;
-      else if (p.unit === "tray") t.trays += q;
-      else if (p.unit === "lb") t.lbs += q;
-      else t.packs += q;
-    });
-    return t;
-  }
-
-  function setQty(id, q) {
-    var p = itemProduct(id);
-    if (!p) return;
-    q = Math.max(0, Math.min(9999, Math.round(q || 0)));
-    if (q === 0) delete sheet.items[id];
-    else sheet.items[id] = q;
-    save();
-  }
-  function add(id, variant) {
-    var p = byId[id];
-    if (!p) return;
-    var key = itemKey(id, variant);
-    var step = Math.max(1, p.startQty || 1);
-    var have = sheet.items[key] || 0;
-    var next = have + step;
-    setQty(key, next);
-    toast(
-      "Added <b>" + step + " " + unitWord(p, step) + "</b> of " + esc(p.name) +
-        (variant ? " in " + esc(variant) : "") + ". Your cart now has <b>" + next + "</b>."
-    );
-  }
-  function itemKey(id, variant) {
-    return variant ? id + "::" + variant : id;
-  }
-  function itemProductId(key) {
-    return String(key).split("::")[0];
-  }
-  function itemVariant(key) {
-    return String(key).split("::").slice(1).join("::");
-  }
-  function itemProduct(key) {
-    return byId[itemProductId(key)];
-  }
   function variantFor(p, name) {
     if (!p || !name || !Array.isArray(p.variants)) return null;
     return p.variants.filter(function (variant) {
       return variant.name === name;
     })[0] || null;
   }
-  function quantityForProduct(id) {
-    return Object.keys(sheet.items).reduce(function (total, key) {
-      return itemProductId(key) === id ? total + (sheet.items[key] || 0) : total;
-    }, 0);
+  function variantPhotoChoices(variants) {
+    return variants.reduce(function (choices, variant) {
+      var photos = Array.isArray(variant.photos) && variant.photos.length
+        ? variant.photos
+        : [{ photo: variant.photo, alt: variant.alt, label: variant.name }];
+      return choices.concat(photos.map(function (image) {
+        return {
+          name: variant.name,
+          photo: image.photo,
+          alt: image.alt || variant.alt,
+          label: image.label || variant.name,
+        };
+      }));
+    }, []);
   }
-  function unitWord(p, n) {
-    var u = p.unit;
-    if (n === 1) return u;
-    return u === "box" ? "boxes" : u + "s";
-  }
-
-  function paintCount() {
-    var t = totals();
-    $$("[data-sheet-count]").forEach(function (el) {
-      var n = t.lines;
-      el.setAttribute("data-empty", n === 0 ? "true" : "false");
-      var slot = $(".sheet-btn__n", el);
-      if (slot) slot.textContent = String(n);
-      el.setAttribute(
-        "aria-label",
-        n === 0 ? "Cart, empty" : "Cart, " + n + (n === 1 ? " line" : " lines")
-      );
-    });
-  }
-
   /* ---------------------------------------------------- catalogue render -- */
   var goodsEl = $("#goods");
   if (goodsEl) {
     var activeCat = "all";
     var filtersEl = $("#filters");
     var selectedVariants = {};
+    var selectedVariantPhotos = {};
+    var selectedFillings = {};
 
     var counts = {};
     D.CATEGORIES.forEach(function (c) {
@@ -315,11 +172,26 @@
     }
 
     function goodCard(p) {
-      var q = quantityForProduct(p.id);
-      var step = Math.max(1, p.startQty || 1);
-      var addLabel = q ? "Add " + step + " more" : "Add " + step + " " + unitWord(p, step);
       var variants = Array.isArray(p.variants) && p.variants.length ? p.variants : null;
-      var shown = variants ? variantFor(p, selectedVariants[p.id]) || variants[0] : { photo: p.photo, alt: p.alt };
+      var selectedVariant = variants ? variantFor(p, selectedVariants[p.id]) || variants[0] : null;
+      var variantChoices = variants ? variantPhotoChoices(variants) : null;
+      var fillings = Array.isArray(p.fillings) && p.fillings.length ? p.fillings : null;
+      var selectedFilling = fillings
+        ? fillings.filter(function (filling) {
+            return filling.name === selectedFillings[p.id];
+          })[0] || fillings[0]
+        : null;
+      var shownPrice = selectedFilling && typeof selectedFilling.price === "number"
+        ? selectedFilling.price
+        : p.price;
+      var shown = variants
+        ? variantChoices.filter(function (choice) {
+            return choice.name === selectedVariant.name &&
+              (!selectedVariantPhotos[p.id] || choice.photo === selectedVariantPhotos[p.id]);
+          })[0] || variantChoices.filter(function (choice) {
+            return choice.name === selectedVariant.name;
+          })[0]
+        : { photo: p.photo, alt: p.alt };
       return (
         '<article class="good" data-good="' +
         p.id +
@@ -331,6 +203,15 @@
         esc(shown.alt) +
         '" loading="lazy" decoding="async" width="900" height="675">' +
         (p.no ? '<span class="good__no num">No. ' + esc(p.no) + "</span>" : "") +
+        '<button type="button" class="good__view" data-view-photo="' +
+        esc(shown.photo) +
+        '" data-view-alt="' +
+        esc(shown.alt) +
+        '" data-view-title="' +
+        esc(p.name) +
+        '" aria-label="View a larger image of ' +
+        esc(p.name) +
+        '">View larger</button>' +
         "</div>" +
         '<div class="good__body">' +
         '<h3 class="good__name">' +
@@ -343,8 +224,8 @@
           ? '<div class="good__variants"><p class="good__variant-label">Colour: <strong class="good__variant-name">' +
             esc(shown.name) +
             '</strong></p><div class="good__thumbs" role="group" aria-label="Choose a colour">' +
-            variants
-              .map(function (variant, index) {
+            variantChoices
+              .map(function (variant) {
                 return (
                   '<button type="button" class="good__thumb" data-variant-photo="' +
                   esc(variant.photo) +
@@ -353,20 +234,47 @@
                   '" data-variant-name="' +
                   esc(variant.name) +
                   '" aria-pressed="' +
-                  (variant.name === shown.name ? "true" : "false") +
+                  (variant.photo === shown.photo ? "true" : "false") +
                   '" aria-label="Show ' +
-                  esc(variant.name) +
-                  ' baby favor">' +
+                  esc(variant.label) +
+                  " " +
+                  esc(p.name) +
+                  '">' +
                   '<img src="img/thumb/' +
                   esc(variant.photo) +
                   '.jpg" alt="" loading="lazy" decoding="async">' +
                   '<span class="good__thumb-label">' +
-                  esc(variant.name) +
+                  esc(variant.label) +
                   "</span></button>"
                 );
               })
               .join("") +
             "</div></div>"
+          : "") +
+        (fillings
+          ? '<div class="good__fillings"><p class="good__variant-label">Filling: <strong class="good__filling-name">' +
+            esc(selectedFilling.name) +
+            '</strong></p><div class="good__filling-choices" role="group" aria-label="Choose a filling">' +
+            fillings
+              .map(function (filling) {
+                return (
+                  '<button type="button" class="good__filling" data-filling-name="' +
+                  esc(filling.name) +
+                  '" data-filling-price="' +
+                  esc(filling.price) +
+                  '" data-filling-note="' +
+                  esc(filling.note || "") +
+                  '" aria-pressed="' +
+                  (filling.name === selectedFilling.name ? "true" : "false") +
+                  '">' +
+                  esc(filling.name) +
+                  "</button>"
+                );
+              })
+              .join("") +
+            '</div><p class="good__filling-note" data-filling-note-text aria-live="polite">' +
+            esc(selectedFilling.note || "") +
+            "</p></div>"
           : "") +
         (p.colors
           ? '<p class="good__say"><strong>Colours:</strong> ' + esc(p.colors.join(", ")) + ".</p>"
@@ -380,29 +288,22 @@
         "</div>" +
         '<div class="good__buy">' +
         '<p class="good__price num">' +
-        price(p.price) +
+        '<span data-good-price aria-live="polite">' +
+        price(shownPrice) +
+        "</span>" +
         "<small>per " +
         p.unit +
         "</small></p>" +
-        '<button type="button" class="btn btn--brass btn--sm" data-add="' +
-        p.id +
-        (variants ? '" data-variant="' + esc(shown.name) : "") +
-        '" data-focus-key="add:' +
-        p.id +
+        '<a class="btn btn--brass btn--sm" href="' +
+        esc(D.CONTACT.phoneHref || "#") +
+        '" aria-label="Call Ajia to order ' +
+        esc(p.name) +
+        ' at ' +
+        esc(D.CONTACT.phone) +
         '">' +
-        svg("i-plus") +
-        esc(addLabel) +
-        "</button>" +
+        svg("i-phone") +
+        "Call Ajia to order</a>" +
         "</div>" +
-        (q
-          ? '<p class="good__spec" style="border:0;padding-top:.35rem;margin-top:.55rem;color:var(--brass-700);font-weight:600">' +
-            svg("i-check") +
-            " " +
-            q +
-            " " +
-            unitWord(p, q) +
-            " in your cart</p>"
-          : "") +
         "</div></article>"
       );
     }
@@ -425,362 +326,88 @@
     }
 
     goodsEl.addEventListener("click", function (e) {
+      var filling = e.target.closest("[data-filling-name]");
+      if (filling) {
+        var fillingCard = filling.closest(".good");
+        var fillingName = $(".good__filling-name", fillingCard);
+        var fillingNote = $("[data-filling-note-text]", fillingCard);
+        var fillingPrice = $("[data-good-price]", fillingCard);
+        selectedFillings[fillingCard.getAttribute("data-good")] = filling.getAttribute("data-filling-name");
+        if (fillingName) fillingName.textContent = filling.getAttribute("data-filling-name");
+        if (fillingNote) fillingNote.textContent = filling.getAttribute("data-filling-note");
+        if (fillingPrice) fillingPrice.innerHTML = price(Number(filling.getAttribute("data-filling-price")));
+        $$(".good__filling", fillingCard).forEach(function (choice) {
+          choice.setAttribute("aria-pressed", String(choice === filling));
+        });
+        return;
+      }
+
+      var view = e.target.closest("[data-view-photo]");
+      if (view) {
+        var viewer = $("#photo-viewer");
+        var viewerImage = $(".photo-viewer__image", viewer);
+        var viewerTitle = $(".photo-viewer__title", viewer);
+        if (viewer && viewerImage && viewerTitle) {
+          viewerImage.src = "img/full/" + view.getAttribute("data-view-photo") + ".jpg";
+          viewerImage.alt = view.getAttribute("data-view-alt");
+          viewerTitle.textContent = view.getAttribute("data-view-title");
+          viewer.showModal();
+        }
+        return;
+      }
+
       var variant = e.target.closest("[data-variant-photo]");
       if (variant) {
         var card = variant.closest(".good");
         var main = $(".good__shot img", card);
         var name = $(".good__variant-name", card);
+        var viewButton = $("[data-view-photo]", card);
         if (main) {
           main.src = "img/card/" + variant.getAttribute("data-variant-photo") + ".jpg";
           main.alt = variant.getAttribute("data-variant-alt");
         }
+        if (viewButton) {
+          viewButton.setAttribute("data-view-photo", variant.getAttribute("data-variant-photo"));
+          viewButton.setAttribute("data-view-alt", variant.getAttribute("data-variant-alt"));
+        }
         selectedVariants[card.getAttribute("data-good")] = variant.getAttribute("data-variant-name");
+        selectedVariantPhotos[card.getAttribute("data-good")] = variant.getAttribute("data-variant-photo");
         if (name) name.textContent = variant.getAttribute("data-variant-name");
-        var addButton = $("[data-add]", card);
-        if (addButton) addButton.setAttribute("data-variant", variant.getAttribute("data-variant-name"));
         $$(".good__thumb", card).forEach(function (thumb) {
           thumb.setAttribute("aria-pressed", String(thumb === variant));
         });
         return;
       }
-      var b = e.target.closest("[data-add]");
-      if (!b) return;
-      add(b.getAttribute("data-add"), b.getAttribute("data-variant"));
-      keepFocus(paintGoods);
-    });
-
-    document.addEventListener("sheet:change", function () {
-      /* keep the catalogue honest about what is already in the cart */
     });
 
     paintGoods();
-  }
 
-  /* ------------------------------------------------------------- cart --- */
-  var linesEl = $("#lines");
-  if (linesEl) {
-    var tallyEl = $("#tally");
-    var emptyEl = $("#sheet-empty");
-    var liveEl = $("#sheet-live");
-
-    function lineRow(key, p, q) {
-      var variant = itemVariant(key);
-      var selected = variantFor(p, variant);
-      var photo = selected ? selected.photo : p.photo;
-      var name = p.name + (variant ? " · " + variant : "");
-      return (
-        '<div class="line" data-line="' +
-        key +
-        '">' +
-        '<figure class="line__shot"><img src="img/thumb/' +
-        photo +
-        '.jpg" alt="" loading="lazy" decoding="async" width="420" height="420"></figure>' +
-        "<div>" +
-        '<p class="line__name">' +
-        esc(name) +
-        "</p>" +
-        '<p class="line__meta num">' +
-        price(p.price) +
-        " per " +
-        p.unit +
-        " · " +
-        size(p) +
-        "</p>" +
-        "</div>" +
-        '<div class="qty">' +
-        '<button type="button" data-step="-1" data-id="' +
-        key +
-        '" data-focus-key="minus:' +
-        key +
-        '" aria-label="One fewer ' +
-        esc(name) +
-        '">' +
-        svg("i-minus") +
-        "</button>" +
-        '<input type="number" inputmode="numeric" min="0" value="' +
-        q +
-        '" data-qty="' +
-        key +
-        '" data-focus-key="qty:' +
-        key +
-        '" aria-label="Quantity of ' +
-        esc(name) +
-        '">' +
-        '<button type="button" data-step="1" data-id="' +
-        key +
-        '" data-focus-key="plus:' +
-        key +
-        '" aria-label="One more ' +
-        esc(name) +
-        '">' +
-        svg("i-plus") +
-        "</button>" +
-        "</div>" +
-        '<p class="line__sum num">' +
-        price(p.price * q) +
-        "</p>" +
-        '<button type="button" class="line__x" data-drop="' +
-        key +
-        '" aria-label="Remove ' +
-        esc(name) +
-        ' in your cart">' +
-        svg("i-trash") +
-        "</button>" +
-        "</div>"
-      );
-    }
-
-    function paintSheet() {
-      var ids = Object.keys(sheet.items).filter(function (key) {
-        return itemProduct(key) && sheet.items[key] > 0;
-      });
-      var t = totals();
-
-      if (emptyEl) emptyEl.hidden = ids.length > 0;
-      var wrapEl = $("#sheet-wrap");
-      if (wrapEl) wrapEl.hidden = ids.length === 0;
-
-      linesEl.innerHTML = ids
-        .map(function (key) {
-          return lineRow(key, itemProduct(key), sheet.items[key]);
-        })
-        .join("");
-
-      if (tallyEl) {
-        tallyEl.innerHTML =
-          '<dl class="tally__rows">' +
-          row("Pieces", t.pieces) +
-          row("Trays", t.trays) +
-          row("Boxes & jars", t.packs) +
-          row("Pounds", t.lbs) +
-          '<div class="tally__row tally__row--total"><dt>Estimate' +
-          (D.PLACEHOLDER.on ? '<b class="ph-tag">placeholder</b>' : "") +
-          '</dt><dd class="num">' +
-          price(t.sum) +
-          "</dd></div>" +
-          "</dl>";
+    var photoViewer = $("#photo-viewer");
+    if (photoViewer) {
+      var photoImageWrap = $("[data-photo-image]", photoViewer);
+      if (photoImageWrap) {
+        var photoViewerImage = document.createElement("img");
+        photoViewerImage.className = "photo-viewer__image";
+        photoViewerImage.alt = "";
+        photoImageWrap.appendChild(photoViewerImage);
       }
-      if (liveEl) {
-        var plural = function (n, word) {
-          return n + " " + word + (n === 1 ? "" : "s");
-        };
-        liveEl.textContent =
-          t.lines === 0
-            ? "Your cart is empty."
-            : [plural(t.lines, "line"), plural(t.pieces, "piece")]
-                .concat(t.trays ? [plural(t.trays, "tray")] : [])
-                .concat(t.lbs ? [plural(t.lbs, "pound")] : [])
-                .join(", ") + ".";
-      }
-      var sub = $("#submit");
-      if (sub) sub.disabled = ids.length === 0;
-    }
-    function row(label, n) {
-      return '<div class="tally__row"><dt>' + label + '</dt><dd class="num">' + n + "</dd></div>";
-    }
-
-    linesEl.addEventListener("click", function (e) {
-      var step = e.target.closest("[data-step]");
-      if (step) {
-        var id = step.getAttribute("data-id");
-        setQty(id, (sheet.items[id] || 0) + Number(step.getAttribute("data-step")));
-        keepFocus(paintSheet);
-        return;
-      }
-      var drop = e.target.closest("[data-drop]");
-      if (drop) {
-        var did = drop.getAttribute("data-drop");
-        var product = itemProduct(did);
-        var name = product ? product.name + (itemVariant(did) ? " · " + itemVariant(did) : "") : "That line";
-        var next = drop.closest(".line").nextElementSibling;
-        setQty(did, 0);
-        paintSheet();
-        toast(esc(name) + " removed from your cart.");
-        /* the button they pressed no longer exists: move them somewhere sensible */
-        var land = next
-          ? document.querySelector('[data-focus-key^="minus:"]')
-          : document.querySelector("#sheet-empty .btn, #lines [data-focus-key]");
-        if (land) land.focus({ preventScroll: true });
-      }
-    });
-    linesEl.addEventListener("change", function (e) {
-      var f = e.target.closest("[data-qty]");
-      if (!f) return;
-      setQty(f.getAttribute("data-qty"), Number(f.value));
-      keepFocus(paintSheet);
-    });
-
-    /* occasion + date live in the cart, not just in the form */
-    var occ = $("#occasion");
-    var dat = $("#event-date");
-    if (occ) {
-      occ.value = sheet.occasion || "";
-      occ.addEventListener("change", function () {
-        sheet.occasion = occ.value;
-        save();
-      });
-    }
-    if (dat) {
-      dat.value = sheet.date || "";
-      dat.addEventListener("change", function () {
-        sheet.date = dat.value;
-        save();
-      });
-    }
-
-    /* ---- the request ---- */
-    var form = $("#request");
-    if (form) {
-      /* The error text was on screen but not attached to anything: a screen reader
-         got focus moved into a field with no idea it was wrong, or why. Give every
-         message an id, wire it to its input, and announce the failure once. */
-      $$(".field[data-required]", form).forEach(function (f) {
-        var input = $("input, select, textarea", f);
-        var err = $(".err", f);
-        if (input && err && !err.id) err.id = input.id + "-err";
-      });
-      var live = document.createElement("p");
-      live.className = "sr";
-      live.setAttribute("role", "status");
-      live.setAttribute("aria-live", "polite");
-      form.appendChild(live);
-
-      var mark = function (input, err, bad) {
-        input.setAttribute("aria-invalid", bad ? "true" : "false");
-        var d = (input.getAttribute("aria-describedby") || "")
-          .split(/\s+/)
-          .filter(function (x) {
-            return x && x !== err.id;
-          });
-        if (bad) d.push(err.id);
-        if (d.length) input.setAttribute("aria-describedby", d.join(" "));
-        else input.removeAttribute("aria-describedby");
-      };
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var ok = true;
-        var count = 0;
-        $$(".field[data-required]", form).forEach(function (f) {
-          var input = $("input, select, textarea", f);
-          var err = $(".err", f);
-          var bad = !input.value.trim() || (input.type === "email" && !/^\S+@\S+\.\S+$/.test(input.value));
-          f.setAttribute("data-invalid", String(bad));
-          if (err) mark(input, err, bad);
-          if (bad) count++;
-          if (bad && ok) {
-            input.focus();
-            ok = false;
-          }
+      var closePhotoViewer = $("[data-close-photo]", photoViewer);
+      if (closePhotoViewer) {
+        closePhotoViewer.addEventListener("click", function () {
+          photoViewer.close();
         });
-        if (!ok) {
-          live.textContent =
-            count === 1
-              ? "One field still needs filling in. Focus has moved to it."
-              : count + " fields still need filling in. Focus has moved to the first.";
-          return;
-        }
-        live.textContent = "";
-
-        var out = buildSummary(form);
-        var box = $("#result");
-        box.hidden = false;
-        $("#result-text").value = out;
-        box.scrollIntoView({ behavior: "smooth", block: "center" });
-        /* Never hand a finished order to an address that does not exist. While the
-           contact details are placeholders the mail route is closed, visibly. */
-        var mail = $("#result-mail");
-        if (mail) {
-          if (D.CONTACT.placeholder) {
-            mail.removeAttribute("href");
-            mail.setAttribute("aria-disabled", "true");
-            mail.classList.add("is-off");
-            mail.innerHTML =
-              svg("i-mail") + "Mail is off until Ajia's address is added";
-          } else {
-            mail.href =
-              "mailto:" +
-              D.CONTACT.email +
-              "?subject=" +
-              encodeURIComponent("Order request: " + ($("#name").value || "new")) +
-              "&body=" +
-              encodeURIComponent(out);
-          }
+      }
+      photoViewer.addEventListener("click", function (e) {
+        if (e.target === photoViewer) photoViewer.close();
+      });
+      photoViewer.addEventListener("close", function () {
+        var image = $(".photo-viewer__image", photoViewer);
+        if (image) {
+          image.removeAttribute("src");
+          image.alt = "";
         }
       });
-
-      var copyBtn = $("#result-copy");
-      if (copyBtn)
-        copyBtn.addEventListener("click", function () {
-          var ta = $("#result-text");
-          ta.select();
-          try {
-            navigator.clipboard
-              ? navigator.clipboard.writeText(ta.value)
-              : document.execCommand("copy");
-            toast("Cart copied. Paste it into an email or a message.");
-          } catch (err) {
-            toast("Select the text above and copy it.");
-          }
-        });
     }
-
-    function buildSummary(form) {
-      var t = totals();
-      var v = function (id) {
-        var el = $("#" + id);
-        return el ? el.value.trim() : "";
-      };
-      var L = [];
-      L.push("ORDER REQUEST: AJIA'S MARZIPAN");
-      L.push("(no payment has been taken; this is a request)");
-      L.push("");
-      L.push("FROM");
-      L.push("  Name      " + v("name"));
-      L.push("  Email     " + v("email"));
-      L.push("  Phone     " + v("phone"));
-      L.push("  Town      " + v("town"));
-      L.push("");
-      L.push("OCCASION");
-      L.push("  Occasion  " + v("occasion"));
-      L.push("  Date      " + (v("event-date") || "not set"));
-      L.push("  Guests    " + (v("guests") || "not set"));
-      L.push("  Handover  " + v("handover"));
-      L.push("");
-      L.push("THE CART");
-      Object.keys(sheet.items).forEach(function (key) {
-        var p = itemProduct(key);
-        var q = sheet.items[key];
-        if (!p || !q) return;
-        var name = p.name + (itemVariant(key) ? " · " + itemVariant(key) : "");
-        L.push(
-          "  No." +
-            p.no +
-            "  " +
-            pad(name, 32) +
-            pad(q + " " + unitWord(p, q), 14) +
-            money.format(p.price * q)
-        );
-      });
-      L.push("");
-      L.push("  Pieces        " + t.pieces);
-      L.push("  Trays         " + t.trays);
-      L.push("  Boxes & jars  " + t.packs);
-      L.push("  Pounds        " + t.lbs);
-      L.push("  Estimate      " + money.format(t.sum) + (D.PLACEHOLDER.on ? "  (placeholder pricing)" : ""));
-      if (v("notes")) {
-        L.push("");
-        L.push("NOTES");
-        L.push("  " + v("notes").replace(/\n/g, "\n  "));
-      }
-      return L.join("\n");
-    }
-    function pad(s, n) {
-      s = String(s);
-      return s.length >= n ? s.slice(0, n - 1) + " " : s + new Array(n - s.length + 1).join(" ");
-    }
-
-    paintSheet();
   }
 
   /* --------------------------------------------------------- tray gallery */
@@ -807,6 +434,14 @@
     if (D.CONTACT[k]) el.textContent = D.CONTACT[k];
     if (k === "phone") {
       el.setAttribute("href", D.CONTACT.phoneHref || "#");
+      el.classList.remove("todo");
+      el.removeAttribute("title");
+      return;
+    }
+    if (k === "instagram") {
+      el.setAttribute("href", D.CONTACT.instagramHref || "#");
+      el.classList.remove("todo");
+      el.removeAttribute("title");
       return;
     }
     if (D.CONTACT.placeholder) {
@@ -817,6 +452,5 @@
     if (k === "email") el.setAttribute("href", "mailto:" + D.CONTACT.email);
   });
 
-  paintCount();
   armStrikes();
 })();

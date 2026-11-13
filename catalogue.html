@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catalogue: Ajia's Marzipan</title>
-<meta name="description" content="Every piece Ajia makes, with its real measurements: roses, swaddled babies, bride-and-groom figures, gilded chalice plaques, fruit, chocolate-dipped marzipan and full centrepiece trays. Build your cart.">
+<meta name="description" content="Browse Ajia's hand-sculpted roses, swaddled babies, wedding figures, communion pieces, fruit and celebration favors, then call to order.">
 <meta name="theme-color" content="#0d0805">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/mold.css">
+<link rel="stylesheet" href="css/mold.css?v=4">
 </head>
 <body>
 <script src="js/icons.js"></script>
@@ -26,10 +26,6 @@
       <a href="catalogue.html" aria-current="page">Catalogue</a>
       <a href="gallery.html">Gallery</a>
       <a href="about.html">About Ajia</a>
-      <a class="sheet-btn" href="order.html" data-sheet-count data-empty="true">
-        <svg class="i" aria-hidden="true"><use href="#i-sheet"/></svg>
-        Cart <span class="sheet-btn__n num">0</span>
-      </a>
     </nav>
   </div>
 </header>
@@ -39,11 +35,11 @@
     <div class="wrap">
       <hr class="rule" style="max-width:8rem">
       <h1 class="h-xxl" style="margin-top:1.25rem;color:var(--paste-050)">The catalogue</h1>
-      <p class="lede" style="margin-top:1rem;max-width:60ch">These are pieces Ajia has made before. Choose your colours, add items to your cart, and she will reply with a quote.</p>
+      <p class="lede" style="margin-top:1rem;max-width:60ch">These are pieces Ajia has made before. Choose a style and colour, then call her with the listing number to discuss quantity, date and final price.</p>
       <p class="diet diet--lead" style="margin-top:1.6rem">
         <svg class="i" aria-hidden="true"><use href="#i-almond"/></svg>
         <b>Gluten-free · Dairy-free · Vegan</b>
-        <span>Almonds and sugar. The two chocolate-dipped pieces are marked on their own cards.</span>
+        <span>Every piece currently listed in the catalogue meets all three.</span>
       </p>
     </div>
   </section>
@@ -52,7 +48,7 @@
     <div class="wrap">
       <p class="notice" style="margin-bottom:2rem">
         <svg class="i" aria-hidden="true"><use href="#i-info"/></svg>
-        <span><b>Placeholder pricing.</b> These figures help your cart add up. Ajia confirms the real quote. No payment is taken here.</span>
+        <span><b>Current pricing.</b> Call Ajia to confirm availability, quantity and timing. No payment is taken on this site.</span>
       </p>
 
       <div class="cat">
@@ -73,12 +69,22 @@
       <h2>Need something custom?</h2>
       <p>Send Ajia a short note or a photo. She will help shape the order around your event.</p>
       <div class="close__acts">
-        <a class="btn btn--brass" href="order.html">Start a custom order <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        <a class="btn btn--carved" href="tel:+16170000000">Call Ajia: (617) 000-0000 <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></a>
+        <a class="btn btn--brass" href="tel:+19783874774"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> Call Ajia: +1 (978) 387-4774</a>
+        <a class="btn btn--carved" href="gallery.html">See the gallery</a>
       </div>
     </div>
   </section>
 </main>
+
+<dialog class="photo-viewer" id="photo-viewer" aria-labelledby="photo-viewer-title">
+  <div class="photo-viewer__frame">
+    <div class="photo-viewer__bar">
+      <h2 class="photo-viewer__title" id="photo-viewer-title">Product image</h2>
+      <button class="photo-viewer__close" type="button" data-close-photo>Close</button>
+    </div>
+    <div class="photo-viewer__image-wrap" data-photo-image></div>
+  </div>
+</dialog>
 
 <footer class="foot">
   <div class="wrap foot__grid">
@@ -101,25 +107,24 @@
       <ul>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="about.html">About Ajia</a></li>
-        <li><a href="order.html">Cart</a></li>
       </ul>
     </div>
     <div>
       <h3>Reach her</h3>
       <ul>
-        <li><a href="#" data-contact="phone" class="todo" title="Placeholder: awaiting Ajia's real number">(617) 000-0000</a></li>
-        <li><a href="#" data-contact="email" class="todo" title="Placeholder: awaiting Ajia's real address">ajia-email-not-set@example.invalid</a></li>
-        <li><a href="https://instagram.com/" class="todo" title="Placeholder: awaiting Ajia's real handle" rel="noopener">Instagram</a></li>
+        <li><a href="tel:+19783874774" data-contact="phone">+1 (978) 387-4774</a></li>
+        <li><a href="mailto:agiaeliaa@gmail.com" data-contact="email">agiaeliaa@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/ajias.marzipan/" data-contact="instagram" rel="noopener">@ajias.marzipan</a></li>
       </ul>
     </div>
   </div>
   <div class="wrap foot__base">
     <p>© <span class="num">2026</span> Ajia's Marzipan · Greater Boston</p>
-    <p>Contact details shown are placeholders pending Ajia's confirmation.</p>
+    <p>Call or email Ajia to discuss your order.</p>
   </div>
 </footer>
 
-<script src="js/data.js?v=9"></script>
-<script src="js/site.js?v=10"></script>
+<script src="js/data.js?v=22"></script>
+<script src="js/site.js?v=21"></script>
 </body>
 </html>

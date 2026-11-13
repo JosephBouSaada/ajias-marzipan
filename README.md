@@ -11,13 +11,8 @@ Open `index.html` or serve the folder and it runs.
 
 ## ⚠️ Not ready to publish as-is
 
-**Every price on this site is a placeholder.** So are the phone number, email, Instagram
-handle and all lead times. They are stand-ins so the cart adds up: they are not
-Ajia's real figures, and they are marked as fake on screen with a dashed underline and a
-`?` at each one.
-
-The contact email is deliberately `ajia-email-not-set@example.invalid`, and the "open in
-mail" route is switched off in code, so a finished order cannot be sent into a void.
+The catalogue prices and Ajia's phone number, email address and Instagram handle are
+confirmed. Lead times are still placeholders and must be confirmed before publishing.
 
 Most sizes read "approx." because they were read off Ajia's photographs rather than
 measured. The one exception is the communion plaque, which she photographed against a ruler.
@@ -29,14 +24,12 @@ See `PRODUCT.md` for exactly what is known versus what must not be invented.
 | Step | Where |
 |---|---|
 | Real prices | `js/products.json` → each product's `price` |
-| Turn off the price warnings | `js/data.js` → `PLACEHOLDER.on = false` |
-| Real phone / email / Instagram | `js/data.js` → `CONTACT` |
-| Re-enable the mail route | `js/data.js` → `CONTACT.placeholder = false` |
+| Price warnings | Disabled because the catalogue prices have been supplied by Ajia |
 | Drop the "approx." size hedges | `js/data.js` → `SIZES_CONFIRMED = true` (measure first) |
 | Allergen + cross-contact statement | Owner-supplied. Currently absent. |
 
-Nothing is charged anywhere on this site. The cart is local-only and ends in an
-inquiry, not a payment.
+Nothing is charged anywhere on this site. Customers call Ajia to confirm availability,
+timing and the final price.
 
 ---
 
@@ -60,15 +53,15 @@ applies to. Do not caveat the headline claim, and do not extend it over the choc
 
 ```
 index.html          home
-catalogue.html      products, filterable, adds to the cart
+catalogue.html      filterable products with direct call buttons
 gallery.html        grouped photographs and commissioned trays
 about.html          about Ajia
-order.html          the cart and inquiry form
+order.html          call-to-order guidance for old bookmarks
 
 css/mold.css        the whole design system
 js/products.json     human-editable product and tray data
 js/data.js           contact and site settings
-js/site.js          cart, validation, summary
+js/site.js          navigation, catalogue, gallery and contact behavior
 js/icons.js         inline SVG sprite
 
 img/{full,card,thumb}   processed images the site serves

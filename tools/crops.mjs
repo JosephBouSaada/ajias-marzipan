@@ -17,7 +17,7 @@ const shots = [
   ["gallery", "#baptism", "d-bap"],
   ["gallery", ".grid-gal", "d-gal"],
   ["about", ".band.paste", "d-about"],
-  ["order", "#sheet-wrap", "d-sheet"],
+  ["order", "#call", "d-call"],
 ];
 
 const browser = await chromium.launch();
@@ -26,19 +26,6 @@ const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, d
 const page = await ctx.newPage();
 for (const [p, sel, label] of shots) {
   await page.goto(`${BASE}/${p}.html`, { waitUntil: "networkidle" });
-  if (p === "order") {
-    await page.evaluate(() => {
-      localStorage.setItem(
-        "ajia.sheet.v2",
-        JSON.stringify({
-          items: { "rose-single": 120, "baby-favor": 60, "baby-tray": 2, "choc-dark": 3 },
-          occasion: "Baptism or christening",
-          date: "",
-        })
-      );
-    });
-    await page.reload({ waitUntil: "networkidle" });
-  }
   await page.evaluate(() => document.querySelectorAll(".cell").forEach((c) => c.classList.add("is-struck")));
   await page.waitForTimeout(1000);
   const el = await page.$(sel);
@@ -60,15 +47,6 @@ const mctx = await browser.newContext({
 const mp = await mctx.newPage();
 for (const p of ["index", "catalogue", "order"]) {
   await mp.goto(`${BASE}/${p}.html`, { waitUntil: "networkidle" });
-  if (p === "order") {
-    await mp.evaluate(() => {
-      localStorage.setItem(
-        "ajia.sheet.v2",
-        JSON.stringify({ items: { "rose-single": 120, "baby-tray": 2 }, occasion: "", date: "" })
-      );
-    });
-    await mp.reload({ waitUntil: "networkidle" });
-  }
   await mp.evaluate(() => document.querySelectorAll(".cell").forEach((c) => c.classList.add("is-struck")));
   await mp.waitForTimeout(900);
   await mp.screenshot({ path: `${OUT}/m-${p}-top.png` });
